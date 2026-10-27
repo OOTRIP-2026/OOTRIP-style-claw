@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="lucy-experiment" content="__NONCE__" />
+    <title>OOTRIP · 实时试衣间</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/mobile.css" />
+  </head>
+  <body class="fitting-app">
+    <header class="topbar">
+      <a href="/" class="brand">OOTRIP<span>TRAVEL IN YOUR STYLE</span></a>
+      <span class="mobile-title">实时试衣</span>
+      <nav>
+        <a href="/" target="_top" aria-current="page"><span>♧</span>实时试衣</a
+        ><a href="/journal" target="_top"><span>▤</span>穿衣手账</a>
+      </nav>
+      <span class="local-tag">LOCAL DEMO</span>
+      <button id="open-help" class="quiet" aria-label="试衣说明">···</button>
+    </header>
+    <main class="workspace">
+      <section class="mirror" aria-label="实时试穿画面">
+        <button
+          id="toggle-wardrobe"
+          class="wardrobe-toggle"
+          aria-expanded="true"
+          aria-controls="wardrobe-panel"
+        >
+          收起选衣 ›
+        </button>
+        <video id="camera" autoplay muted playsinline hidden></video>
+        <div id="output" hidden></div>
+        <div class="mirror-copy" id="mirror-copy">
+          <p class="eyebrow">YOUR PERSONAL FITTING ROOM</p>
+          <h1>Wear the moment.<br /><em>随你，自然发生。</em></h1>
+          <p>从衣橱到旅途，<br />找到此刻喜欢的自己。</p>
+          <span class="fine-line"></span>
+        </div>
+        <div id="empty-camera" class="empty-camera">
+          <span>✦</span>
+          <p>你的下一套风格，从这里开始</p>
+          <small>选择衣物 · 开启摄像头 · 实时试穿</small>
+        </div>
+        <div class="mirror-top">
+          <span id="view-label">等待开启试衣镜</span><span id="countdown">LIVE FITTING</span>
+        </div>
+        <div class="mirror-bottom">
+          <div>
+            <span class="eyebrow">OOTRIP / TRY ON</span>
+            <p id="look-name">自然呼吸，轻松出发。</p>
+          </div>
+          <button id="capture" class="glass-button" disabled>↓ 保存试穿画面</button>
+        </div>
+      </section>
+      <aside id="wardrobe-panel" class="wardrobe" aria-label="衣物选择">
+        <div class="wardrobe-header">
+          <div>
+            <p class="eyebrow">THE EDIT</p>
+            <h2>我的衣橱</h2>
+          </div>
+          <span id="closet-count">0 件单品</span>
+        </div>
+        <div class="wardrobe-body">
+          <nav id="categories" class="categories" aria-label="衣物分类"></nav>
+          <section class="gallery-panel">
+            <div class="gallery-top">
+              <strong id="category-name">上衣</strong
+              ><button id="upload" class="quiet">＋ 上传</button>
+            </div>
+            <input
+              id="files"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              multiple
+              hidden
+            />
+            <div id="gallery" class="gallery"></div>
+            <p class="gallery-note">
+              图片仅保存在当前浏览器。<br />同类自动替换，套装与上下装互斥。
+            </p>
+          </section>
+        </div>
+        <section class="selection">
+          <div class="selection-heading">
+            <h3>本次穿搭 <span id="selection-count">0</span></h3>
+            <button id="clear-selection" class="quiet">清空选择</button>
+          </div>
+          <div id="selected" class="selected"></div>
+        </section>
+      </aside>
+      <section class="control-bar">
+        <div class="live-status">
+          <span class="status-dot" id="status-dot"></span>
+          <div>
+            <p id="status" role="status" aria-live="polite">选择衣物，开启你的实时试衣镜。</p>
+            <small id="quota">正在检查试穿服务…</small>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="preview" class="outline">开启摄像头</button
+          ><button id="start" class="primary">试穿已选衣物 ↗</button
+          ><button id="stop" class="outline" disabled>结束试穿</button>
+        </div>
+        <label class="consent"
+          ><input id="consent" type="checkbox" />我同意本次将摄像头画面与所选衣物发送至
+          Decart，并消耗账户额度。总连接最多30秒，首帧后最多15秒；不录制视频。</label
+        >
+      </section>
+    </main>
+    <footer>
+      <span>DESIGNED FOR YOUR NEXT JOURNEY</span
+      ><span>AI试穿仅供视觉参考，不代表真实尺码或合身程度。</span>
+    </footer>
+    <dialog id="help">
+      <button id="close-help" class="dialog-close" aria-label="关闭">×</button>
+      <p class="eyebrow">ABOUT THIS DEMO</p>
+      <h2>把试衣间，带进浏览器。</h2>
+      <p>
+        ①
+        从右侧分类上传衣物，可一次上传多张。上传后自动选中，同类仅保留最后一件；点击缩略图可以换选。
+      </p>
+      <p>② 开启电脑摄像头，让身体完整入镜，勾选处理同意后点击“试穿已选衣物”。本机预览不调用AI。</p>
+      <p>
+        ③
+        到时自动结束；本批次数与小程序共用，失败申请也计一次，不自动重试。永久API密钥只在电脑服务端。
+      </p>
+      <p>当前演示聚焦实时试衣与穿衣手账。衣物直接在此上传，小程序本机数据与浏览器数据独立。</p>
+      <p>浏览器衣橱在此电脑保存；可点击单品的删除按钮清理。保存试穿画面只在你主动点击时下载。</p>
+      <a
+        href="https://docs.platform.decart.ai/resources/privacy-policy"
+        target="_blank"
+        rel="noreferrer"
+        >Decart 隐私政策 ↗</a
+      >
+    </dialog>
+    <script type="module" src="/client.js"></script>
+  </body>
+</html>

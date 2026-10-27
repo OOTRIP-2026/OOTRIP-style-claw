@@ -1,0 +1,32 @@
+{
+  "name": "ootrip",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OOTRIP 实时试衣与穿衣手账交接包",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=11 <12"
+  },
+  "scripts": {
+    "demo:html": "node --env-file-if-exists=.env tools/lucy-demo/start.mjs",
+    "typecheck": "tsc -p tools/lucy-demo/tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:lucy": "node --test tools/lucy-realtime/tests/*.test.mjs"
+  },
+  "dependencies": {
+    "fastify": "5.12.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "eslint": "10.13.0",
+    "eslint-config-prettier": "10.1.8",
+    "miniprogram-api-typings": "5.2.3",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "4.1.12"
+  }
+}

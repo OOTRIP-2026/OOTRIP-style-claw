@@ -1,0 +1,659 @@
+/* Shared phone application layout. The outer page supplies the device bezel. */
+:root {
+  color-scheme: light;
+  --paper: #f8f5ed;
+  --ink: #34463c;
+  --muted: #a29a89;
+  --line: #e7e1d7;
+  --olive: #69765e;
+  background: var(--paper);
+}
+html {
+  min-width: 0;
+  scrollbar-width: none;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  padding-bottom: 64px;
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  font-size: 13px;
+}
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  display: none;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  touch-action: manipulation;
+}
+body > header,
+.topbar {
+  height: 47px;
+  min-height: 47px;
+  padding: 0 20px;
+  margin: 0;
+  max-width: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #e7e1d760;
+  background: var(--paper);
+  position: relative;
+}
+.mobile-title {
+  font-family: 'Songti SC', 'SimSun', serif;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+.topbar > .brand,
+.topbar > .local-tag,
+.journal-app > header > a {
+  display: none;
+}
+.topbar #open-help {
+  display: block;
+  position: absolute;
+  right: 18px;
+  top: 4px;
+  background: none;
+  border: 0;
+  border-radius: 20px;
+  font-size: 25px;
+  padding: 0 8px;
+  color: #62705b;
+  letter-spacing: 2px;
+}
+body > header nav,
+.topbar nav {
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 61px;
+  padding: 5px 24px 7px;
+  background: #f8f5edf5;
+  backdrop-filter: blur(12px);
+  border-top: 1px solid #e4ded2;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-around;
+  font:
+    11px 'Microsoft YaHei',
+    sans-serif;
+}
+body > header nav a,
+.topbar nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  color: #aaa18f;
+  border-radius: 18px;
+  padding: 3px 16px !important;
+  border: 0 !important;
+  height: 46px;
+  text-decoration: none;
+}
+body > header nav a > span {
+  display: block;
+  font: 22px Georgia;
+  line-height: 23px;
+}
+body > header nav a[aria-current],
+.topbar nav a[aria-current] {
+  background: #e9e8dd;
+  color: #58624c;
+}
+.workspace {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  grid-template-rows: minmax(420px, calc(100dvh - 290px)) auto;
+  gap: 0;
+}
+.mirror {
+  background: linear-gradient(130deg, #dedecf, #eeeadc 65%, #cbcdb9);
+}
+.mirror-copy {
+  left: 17px;
+  top: 44px;
+  right: 10px;
+}
+.mirror-copy .eyebrow {
+  font-size: 6px;
+  letter-spacing: 1px;
+}
+.mirror h1 {
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 19px 0 15px;
+}
+.mirror h1 em {
+  font-size: 15px;
+  font-family: 'Songti SC', serif;
+}
+.mirror-copy > p:last-of-type {
+  font-size: 10px;
+  line-height: 2;
+  letter-spacing: 1px;
+}
+.fine-line {
+  margin-top: 16px;
+  width: 23px;
+}
+.mirror-top {
+  top: 14px;
+  left: 15px;
+  right: 13px;
+  font-size: 7px;
+  letter-spacing: 0;
+}
+.mirror-top #countdown {
+  max-width: 80px;
+  text-align: right;
+}
+.empty-camera {
+  top: 51%;
+  padding: 0 15px;
+}
+.empty-camera > span {
+  font-size: 40px;
+}
+.empty-camera p {
+  font-size: 11px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  margin-top: 16px;
+}
+.empty-camera small {
+  display: block;
+  font-size: 8px;
+  line-height: 1.8;
+}
+.mirror-bottom {
+  padding: 28px 13px 13px;
+  display: block;
+}
+.mirror-bottom .eyebrow {
+  font-size: 6px;
+  letter-spacing: 1px;
+}
+.mirror-bottom p {
+  font-size: 12px;
+  margin: 8px 0 12px;
+}
+.glass-button {
+  padding: 9px 12px;
+  font-size: 9px;
+  margin: 0;
+}
+.mirror video.inset-camera {
+  width: 55px;
+  height: 76px;
+  right: 12px;
+  bottom: 108px;
+}
+.wardrobe {
+  min-height: 0;
+  background: #f7f3ea;
+  border-left: 1px solid #e6e1d5;
+}
+.wardrobe-header {
+  display: none;
+}
+.wardrobe-body {
+  min-height: 0;
+  padding-top: 9px;
+}
+.categories {
+  width: 43px;
+  padding-top: 3px;
+}
+.categories button {
+  padding: 16px 0;
+  font-size: 11px;
+  color: #9d9686;
+}
+.categories button.active:before {
+  left: 2px;
+  top: 15px;
+  height: 16px;
+}
+.gallery-top {
+  padding: 7px 5px 10px;
+  justify-content: center;
+}
+.gallery-top strong {
+  display: none;
+}
+.gallery-top .quiet {
+  font-size: 10px;
+  padding: 5px 0;
+}
+.gallery {
+  padding: 0 6px 10px;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  align-content: start;
+}
+.garment-tile img {
+  height: 103px;
+}
+.gallery-empty {
+  padding: 34px 3px;
+  font-size: 9px;
+  line-height: 1.9;
+}
+.gallery-note {
+  display: none;
+}
+.selection {
+  padding: 9px 7px;
+  border-top: 1px solid #e4dfd1;
+}
+.selection-heading {
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.selection h3 {
+  font-size: 10px;
+  margin: 0;
+}
+.selection-heading .quiet {
+  font-size: 8px;
+  padding: 4px 0;
+}
+.selected {
+  gap: 5px;
+  min-height: 35px;
+}
+.selected > p {
+  font-size: 8px;
+  line-height: 1.7;
+}
+.selected-item,
+.selected-item img {
+  width: 32px;
+}
+.selected-item img {
+  height: 38px;
+}
+.selected-item span {
+  font-size: 7px;
+}
+.control-bar {
+  padding: 13px 16px 16px;
+  gap: 11px;
+  border: 0;
+  border-top: 1px solid #e4dfd2;
+  background: var(--paper);
+}
+.live-status {
+  max-width: 100%;
+  gap: 7px;
+}
+.live-status p {
+  font-size: 10px;
+  line-height: 1.65;
+  margin: 0 0 3px;
+}
+.live-status small {
+  font-size: 8px;
+  line-height: 1.6;
+}
+.status-dot {
+  width: 5px;
+  height: 5px;
+}
+.actions {
+  width: 100%;
+  gap: 7px;
+}
+.actions button {
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  padding: 11px 5px;
+  white-space: nowrap;
+}
+.actions .primary {
+  background: #68735e;
+  color: #fff;
+}
+.consent {
+  font-size: 9px;
+  line-height: 1.8;
+  margin: 0;
+}
+.consent input {
+  accent-color: #68735e;
+  vertical-align: middle;
+}
+.fitting-app > footer {
+  display: none;
+}
+dialog {
+  width: calc(100vw - 42px);
+  max-width: 352px;
+  max-height: 80dvh;
+  border-radius: 22px;
+  padding: 28px 23px;
+  box-sizing: border-box;
+}
+dialog h2 {
+  font-size: 20px;
+}
+dialog p {
+  font-size: 12px;
+  line-height: 1.9;
+}
+dialog::backdrop {
+  background: #242b2870;
+}
+dialog .dialog-close {
+  right: 14px;
+  top: 10px;
+}
+.journal-app main {
+  margin: 0;
+  padding: 28px 22px 28px;
+  max-width: none;
+}
+.journal-app .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  line-height: 1.8;
+}
+.journal-app h1 {
+  font-family: 'Songti SC', 'SimSun', serif;
+  font-size: 27px;
+  margin: 18px 0 25px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.journal-app h1 span {
+  font: italic 20px Georgia;
+  color: #a5a08f;
+  margin-top: 3px;
+}
+.journal-app .primary {
+  width: 100%;
+  min-width: 0;
+  background: #b79a88;
+  border-radius: 22px;
+  font-size: 13px;
+  padding: 14px 15px;
+}
+.journal-app .hint {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #aaa08d;
+  margin: 14px 0;
+}
+.journal-app .empty {
+  padding: 84px 0;
+  color: #b2a997;
+  font-size: 12px;
+  line-height: 2;
+}
+.journal-app .empty span {
+  font-size: 43px;
+  color: #bfb6a4;
+  margin-bottom: 18px;
+}
+.journal-app .month {
+  font-size: 17px;
+  font-weight: 400;
+  margin: 30px 0 0;
+}
+.journal-app .record {
+  gap: 10px;
+  padding: 21px 0;
+  border-color: #ded9ce;
+}
+.journal-app .date {
+  min-width: 75px;
+}
+.journal-app .date strong {
+  font-size: 34px;
+  margin-right: 5px;
+}
+.journal-app .date small {
+  font-size: 10px;
+}
+.journal-app .emojis {
+  gap: 6px;
+  margin-top: 8px;
+}
+.journal-app .emojis span {
+  height: 25px;
+  width: 25px;
+  font-size: 14px;
+}
+.journal-app .pieces {
+  gap: 7px;
+  align-items: center;
+}
+.journal-app .pieces img {
+  height: 85px;
+  width: 62px;
+  border-radius: 8px;
+}
+.journal-app .pieces small {
+  font-size: 8px;
+  line-height: 1.8;
+  min-width: 48px;
+  color: #9f9685;
+}
+.journal-app .record-actions {
+  gap: 5px;
+}
+.journal-app .record-actions button {
+  font-size: 9px;
+  padding: 7px 9px;
+  color: #807865;
+}
+.journal-app .quiet {
+  font-size: 11px;
+  padding: 6px 0;
+  margin: 0 0 9px;
+  background: none;
+  color: #8a8474;
+}
+.journal-app .form-grid {
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.journal-app .upload {
+  height: 300px;
+  background: #eeeade;
+  border-color: #cfc5b3;
+  border-radius: 15px;
+}
+.journal-app .upload > span {
+  font-size: 14px;
+}
+.journal-app .upload small {
+  font-size: 10px;
+}
+.journal-app .field {
+  font-size: 12px;
+  margin-bottom: 21px;
+}
+.journal-app .field input {
+  padding: 12px 13px;
+  margin-top: 9px;
+  background: #fffefa;
+  border: 1px solid #e4ded2;
+  color: #5a6150;
+  min-width: 0;
+  border-radius: 12px;
+  font-size: 13px;
+}
+.journal-app fieldset {
+  margin: 22px 0;
+}
+.journal-app legend {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+.journal-app .emoji-options {
+  justify-content: space-between;
+  gap: 8px;
+}
+.journal-app .emoji-options button {
+  height: 44px;
+  width: 44px;
+  font-size: 22px;
+  border-radius: 50%;
+  background: #f0ebe1;
+}
+.journal-app .emoji-options button[aria-pressed='true'] {
+  border-color: #b79a88;
+  background: #eee0d1;
+  box-shadow: 0 0 0 2px #eee0d1;
+}
+.journal-app .consent {
+  display: block;
+  margin: 18px 0;
+  font-size: 10px;
+  line-height: 1.9;
+}
+.journal-app #result h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.journal-app #scrapbook {
+  border-radius: 3px;
+  margin: 20px auto;
+  box-shadow: 0 10px 25px #91846a1a;
+}
+.journal-app #result-note {
+  font-size: 10px;
+}
+.journal-app #result-back {
+  display: block;
+}
+.journal-app #error {
+  font-size: 11px;
+  line-height: 1.8;
+}
+.journal-app dialog {
+  padding: 30px 22px;
+}
+.journal-app dialog h2 {
+  font-size: 17px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+}
+/* Keep the fitting mirror dominant; selection can collapse without restarting video. */
+.fitting-app .workspace {
+  grid-template-columns: minmax(0, 1fr) 106px;
+  grid-template-rows: minmax(420px, calc(100dvh - 235px)) auto;
+}
+.fitting-app .workspace.wardrobe-collapsed {
+  grid-template-columns: minmax(0, 1fr) 0px;
+}
+.fitting-app .wardrobe-toggle {
+  position: absolute;
+  right: 8px;
+  top: 35px;
+  z-index: 8;
+  border: 1px solid #ffffff65;
+  background: #f8f5edcf;
+  backdrop-filter: blur(8px);
+  color: #626d58;
+  border-radius: 16px;
+  padding: 7px 9px;
+  font-size: 9px;
+  line-height: 1.2;
+  box-shadow: 0 2px 8px #28332310;
+}
+.fitting-app .categories {
+  width: 34px;
+}
+.fitting-app .categories button {
+  font-size: 10px;
+  padding: 16px 0;
+}
+.fitting-app .gallery {
+  padding: 0 4px 8px;
+  gap: 7px;
+}
+.fitting-app .garment-tile img {
+  height: 86px;
+}
+.fitting-app .gallery-top .quiet {
+  font-size: 9px;
+}
+.fitting-app .selection-heading .quiet {
+  font-size: 7px;
+}
+.fitting-app .mirror #output iframe {
+  display: block;
+}
+.fitting-app .workspace.wardrobe-collapsed .mirror {
+  grid-column: 1 / -1;
+}
+
+.fitting-app .control-bar {
+  padding: 8px 12px 9px;
+  gap: 6px;
+}
+.fitting-app .actions button {
+  padding: 8px 5px;
+}
+.fitting-app .consent {
+  line-height: 1.5;
+}
+.journal-app textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid #e6dfd2;
+  border-radius: 12px;
+  background: #fffdf8;
+  font: inherit;
+  color: inherit;
+}
+.journal-app #full-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+.journal-app .result-actions {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+.journal-app .result-actions button {
+  flex: 1;
+}
+.journal-app #download {
+  margin-top: 12px;
+}
+.journal-app #journal-mode {
+  width: 100%;
+  padding: 12px;
+  background: #fffdf8;
+  color: #53624e;
+  border: 1px solid #e6dfd2;
+  border-radius: 12px;
+  font: inherit;
+}

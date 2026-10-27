@@ -1,0 +1,305 @@
+{
+  "createdAt": "2026-10-27T04:24:47.684Z",
+  "scope": "HTML mobile-screen live-fitting and outfit journal",
+  "sourceRoot": "project-relative paths retained",
+  "usedLucyAttempts": 7,
+  "remainingLucyAttempts": 3,
+  "checks": "packaging only; no build/test/provider call",
+  "files": [
+    {
+      "path": "tools/lucy-demo/web/client.ts",
+      "source": "tools/lucy-demo/web/client.ts",
+      "sha256": "395fcdbf6c4e187e5d7d758bf78102253503dc20f5db0028018b372fd18d42d5"
+    },
+    {
+      "path": "tools/lucy-demo/web/index.html",
+      "source": "tools/lucy-demo/web/index.html",
+      "sha256": "b01dbca89cfb168e97a49d82127a97ada7a79feaff6d4aeeb0ebf33819557635"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal-model.ts",
+      "source": "tools/lucy-demo/web/journal-model.ts",
+      "sha256": "847bc49b9b611faeabd1ab4a4891611e02cae3b41633c8b440b302f0ea5e93b3"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal-renderer.ts",
+      "source": "tools/lucy-demo/web/journal-renderer.ts",
+      "sha256": "92c374456b81068512f2e7dda0ace918b7a9d5192462588f11693c33f621de56"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal-storage.ts",
+      "source": "tools/lucy-demo/web/journal-storage.ts",
+      "sha256": "61880e5512e7034296215d9b7da38428461cbf0bddc5a5f16a85ffffa655c82a"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal.css",
+      "source": "tools/lucy-demo/web/journal.css",
+      "sha256": "05f188e394cf771afa23cb72eaf0bf4ba577e4c970cb6334a392e9e3b0e51773"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal.html",
+      "source": "tools/lucy-demo/web/journal.html",
+      "sha256": "541e7c511c2f9d9381bf0163c2b0cb8edcbc82add813f53768abd21b18f82cbe"
+    },
+    {
+      "path": "tools/lucy-demo/web/journal.ts",
+      "source": "tools/lucy-demo/web/journal.ts",
+      "sha256": "1628b47ee819a98b43f94f6f0d281b44daf6182aeec88718e5b6f663fff805cb"
+    },
+    {
+      "path": "tools/lucy-demo/web/mobile.css",
+      "source": "tools/lucy-demo/web/mobile.css",
+      "sha256": "190b2a3c253778a67ef61009f2bca18cbf3ece76ac2e16c6a30bc12324b6e186"
+    },
+    {
+      "path": "tools/lucy-demo/web/phone.css",
+      "source": "tools/lucy-demo/web/phone.css",
+      "sha256": "16f7867acd7a3ed8405e13da93ef3a956e9060472b61bea379c02e19f48ff8b3"
+    },
+    {
+      "path": "tools/lucy-demo/web/phone.html",
+      "source": "tools/lucy-demo/web/phone.html",
+      "sha256": "e625d966417d2aa3e0ef4b89e1e065c9f6b66bbf74dbe4a95fb582a18b61fe03"
+    },
+    {
+      "path": "tools/lucy-demo/web/phone.js",
+      "source": "tools/lucy-demo/web/phone.js",
+      "sha256": "fa4576971da6fd6d1d4966227fae0d53e545951834f4eb67b9a501a6d68ea503"
+    },
+    {
+      "path": "tools/lucy-demo/web/portrait.ts",
+      "source": "tools/lucy-demo/web/portrait.ts",
+      "sha256": "6206cebba0e293bfca3c238ab4476560208074636ac4ca07c392c37f6c8a9bc8"
+    },
+    {
+      "path": "tools/lucy-demo/web/session-policy.ts",
+      "source": "tools/lucy-demo/web/session-policy.ts",
+      "sha256": "cb539a9ecb147372d5c777594a06bc86a06a4a2da98db131e699008628c76ba0"
+    },
+    {
+      "path": "tools/lucy-demo/web/session.ts",
+      "source": "tools/lucy-demo/web/session.ts",
+      "sha256": "099f89e63b4dbc03475c971fc9be50cf5c5cfb1a8786a51a0cde22f1f0a14683"
+    },
+    {
+      "path": "tools/lucy-demo/web/store.ts",
+      "source": "tools/lucy-demo/web/store.ts",
+      "sha256": "571fe51f2e599f95fa7abe065cc4ab43ecc5dcb2ebe8a994b0c7e0875c137260"
+    },
+    {
+      "path": "tools/lucy-demo/web/style.css",
+      "source": "tools/lucy-demo/web/style.css",
+      "sha256": "cd19ce83dfdfe9134598f46ad0128d1b6c17661b57555ab21c9a2247d1eb6640"
+    },
+    {
+      "path": "tools/lucy-demo/journal-server.ts",
+      "source": "tools/lucy-demo/journal-server.ts",
+      "sha256": "be9c46c8a2f44b99cc412ee879224c2207f464206b365813b03e3348486d3dea"
+    },
+    {
+      "path": "tools/lucy-demo/journal-artwork.ts",
+      "source": "tools/lucy-demo/journal-artwork.ts",
+      "sha256": "924057b0628fe7da561c9b1f508e23b89472f07541e434fc838019dd3fe3c0dd"
+    },
+    {
+      "path": "tools/lucy-demo/tsconfig.json",
+      "source": "tools/lucy-demo/tsconfig.json",
+      "sha256": "e9bcbf5b6280f3c680527f1e94e3dd3d57f9b3c8ead75f3ba076e352184268bf"
+    },
+    {
+      "path": "tools/lucy-realtime/server.mjs",
+      "source": "tools/lucy-realtime/server.mjs",
+      "sha256": "b8dd75448e5373712a3296f148a337ac7daa27d2fa460f66eb29a580ff7508db"
+    },
+    {
+      "path": "tools/lucy-realtime/package.json",
+      "source": "tools/lucy-realtime/package.json",
+      "sha256": "48f5f1df7831d2ecb3e8befd6f4871d63e333187f0168b584314bc3410393bcc"
+    },
+    {
+      "path": "tools/lucy-realtime/package-lock.json",
+      "source": "tools/lucy-realtime/package-lock.json",
+      "sha256": "3ee63762a88e165845aa6c8a00d4a5f6ec4026d2b8587666a7cff2230795bb27"
+    },
+    {
+      "path": "server/src/native-lucy-budget.ts",
+      "source": "server/src/native-lucy-budget.ts",
+      "sha256": "ed0f23690ab163d1bdb5f47e2be78fcaad001e4d6b6800a2aca4401a2705d73d"
+    },
+    {
+      "path": "server/src/ai/qwen-garment.ts",
+      "source": "server/src/ai/qwen-garment.ts",
+      "sha256": "5677daa9fe091b78c1abc03f356eb9895480089f0b9a1ea3cc29085d526fc253"
+    },
+    {
+      "path": "server/src/ai/qwen-avatar.ts",
+      "source": "server/src/ai/qwen-avatar.ts",
+      "sha256": "3674e02238d9aee2a65ec32cff5951b8711dd6bd55d69580546e6c9c03e32b40"
+    },
+    {
+      "path": "package-lock.json",
+      "source": "package-lock.json",
+      "sha256": "9f0e2ac2499aadd67ff2cbd6321e08ea23f6fd527c8c179a42a1ef4141977a0e"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "source": "tsconfig.base.json",
+      "sha256": "55c0334cff248224fdcfbe047807584f98407149854079277a40e7419d8c986c"
+    },
+    {
+      "path": "vitest.config.ts",
+      "source": "vitest.config.ts",
+      "sha256": "c6011bf18877fbad0cd7b3152a671206b5dfdc0140214d431cc8f4a87f7b0cd8"
+    },
+    {
+      "path": "tools/lucy-demo/start.mjs",
+      "source": "tools/lucy-demo/start.mjs (only unrelated journey routes removed)",
+      "sha256": "7348616627edee72ba3a93d0bfbf53df499c9ee6ff48a27daa10f13d2c20bbc4"
+    },
+    {
+      "path": "miniprogram/wardrobe/realtime.ts",
+      "source": "miniprogram/wardrobe/realtime.ts (type-only dependency made portable)",
+      "sha256": "5b7ea7e4e61dda13546ce02aa4652b67345054c811e64c274f0a6759ae1260b8"
+    },
+    {
+      "path": "package.json",
+      "source": "package.json (handoff scripts only; dependency versions unchanged)",
+      "sha256": "0e9c751c4611eddeeedf710e22b8dd7d13b83b919586fc4788bb06c69a6d110c"
+    },
+    {
+      "path": "tests/server/html-session-policy.test.ts",
+      "source": "tests/server/html-session-policy.test.ts",
+      "sha256": "096765fe76bab2a20ae7a47f55c07879eecb1f76e9f099043598f7163b03865c"
+    },
+    {
+      "path": "tests/server/html-portrait.test.ts",
+      "source": "tests/server/html-portrait.test.ts",
+      "sha256": "40f132de32a9240ef7d0d362c9e3982e1344790fc7117e508babd71c380e25d5"
+    },
+    {
+      "path": "tests/server/html-journal.test.ts",
+      "source": "tests/server/html-journal.test.ts",
+      "sha256": "d6001d67b4a47dfa48614062e8eb913bcc207dd46999d9ca397dbb9a6f532090"
+    },
+    {
+      "path": "tests/server/html-journal-layout.test.ts",
+      "source": "tests/server/html-journal-layout.test.ts",
+      "sha256": "3d8fcd80a2606e56223c3c7bcf88ab9428bfd90d3c26d05ee47132feb95d2531"
+    },
+    {
+      "path": "tests/server/html-journal-artwork.test.ts",
+      "source": "tests/server/html-journal-artwork.test.ts",
+      "sha256": "579f3f789df3571fe0a307658cfd4e530910b19eb95bbb99e38bc241925d4b63"
+    },
+    {
+      "path": "tests/server/native-lucy-budget.test.ts",
+      "source": "tests/server/native-lucy-budget.test.ts",
+      "sha256": "a95940fc86a28865c93053e089f3e02205d64667379fb6a1f2bef2ec52a3fe5a"
+    },
+    {
+      "path": "tests/server/qwen-avatar.test.ts",
+      "source": "tests/server/qwen-avatar.test.ts",
+      "sha256": "22bcbe3a30077a0841186503f4505ba819ed8972b8fcb6d5de49e75ca93eacb0"
+    },
+    {
+      "path": "tools/lucy-realtime/tests/server.test.mjs",
+      "source": "tools/lucy-realtime/tests/server.test.mjs",
+      "sha256": "f539daddf862994e7fe5b6cf751b818a4fbe91199a70f84d5c419aee4f930a52"
+    },
+    {
+      "path": "docs/validation/html-journal-v1.md",
+      "source": "docs/validation/html-journal-v1.md",
+      "sha256": "ab5f170a8ea131c11c5c0a219e899faf3aeb30f0fddca698c51f6e20045ef2f7"
+    },
+    {
+      "path": "docs/validation/html-journal-ai-paper.md",
+      "source": "docs/validation/html-journal-ai-paper.md",
+      "sha256": "213cfbd7a9d082296d65066b2b3d9a67432c7aa8b26c642c31ad3f2d53e063c1"
+    },
+    {
+      "path": "docs/validation/realtime-fitting-ui.md",
+      "source": "docs/validation/realtime-fitting-ui.md",
+      "sha256": "4ad8f6562fd147bff641552419b54d23d91c3c9c1d1ba59c1d278eea314e6d85"
+    },
+    {
+      "path": "docs/validation/native-lucy-bridge.md",
+      "source": "docs/validation/native-lucy-bridge.md",
+      "sha256": "1c37e90b287fd3d1c960d592497046ca6d3bb6e05ceddefb9b96939b985e508b"
+    },
+    {
+      "path": "docs/validation/lucy-wechat-feasibility.md",
+      "source": "docs/validation/lucy-wechat-feasibility.md",
+      "sha256": "8b370697a89ddf9088983980a7873c954279da67d2703cdce87a517b8f048c0f"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-01.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "9eccceaadc6744927483bb741a1e74e009d1221ca83af455b5ee176eb46c2029"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-02.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "f02581611b1bd3c225adb74efca0cae174507c2f043f2a24706634a126a70cef"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-03.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "a79184a220006e0fcadb1100eb46d695838724db5eaf0607f929ca58d6946fe3"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-04.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "4d75e60d0c8ab13d41ffddcf9f7de5463e296de055c0019a7c55ab4da47f85e2"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-05.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "1d654107ad518db8aee02b165e1e2cb81a79db754140a12c5ce1c5de0e3ebbdc"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-06.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "1ece0145cecae1e8857558060e8cca5cb3f680f8e5920dade8f5244ec17db901"
+    },
+    {
+      "path": "server/data/lucy-native/ui-10-v1-attempt-07.json",
+      "source": "sanitized reservation marker; original contents not read",
+      "sha256": "c6cc339b21ed330362b94d228ddd825f3e73ebed01d3b06053d146fc9aa86db4"
+    },
+    {
+      "path": ".env.example",
+      "source": null,
+      "sha256": "042a7e99933abf53376aa39c3a1adb1e8167f288de8b4074ec6bbacdb28bc227"
+    },
+    {
+      "path": ".gitignore",
+      "source": null,
+      "sha256": "c21c97b541c14d9c9420dbe86368092dd2f5edc41214ebd1ee8444762d2b9b54"
+    },
+    {
+      "path": "README.md",
+      "source": null,
+      "sha256": "c7bf0f4c221ffc476f039329739d51f4fdb52e0c877f3261b47bf27ef1603339"
+    },
+    {
+      "path": "AGENTS.md",
+      "source": null,
+      "sha256": "00aaf5b98965ec6f9a648fd37ba815a37522df97a11012ff324e37272cc013ee"
+    },
+    {
+      "path": "MODULE-MAP.md",
+      "source": null,
+      "sha256": "ed63b88c012a42f521129e9ad9060101c4a088789bb99e93de9710d21136b589"
+    },
+    {
+      "path": "HANDOFF.md",
+      "source": null,
+      "sha256": "d11c3052f7a128512de1375792d4a8e6c5e50b74ecf574a8935791c0b9e57939"
+    },
+    {
+      "path": "AI-接手提示词.txt",
+      "source": null,
+      "sha256": "b47b381c34057b52234d608e2c6baa97218709a5b5476538124d4bead8d9dc7e"
+    }
+  ]
+}

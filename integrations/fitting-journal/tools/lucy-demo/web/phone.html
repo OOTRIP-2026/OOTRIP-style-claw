@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>OOTRIP · 手机界面演示</title>
+    <link rel="stylesheet" href="/phone.css" />
+  </head>
+  <body>
+    <main class="presentation">
+      <div class="device">
+        <div class="phone-screen">
+          <div class="status-bar" aria-label="演示状态栏">
+            <b>9:41</b>
+            <div class="island" aria-hidden="true"><i></i></div>
+            <div class="indicators" aria-hidden="true">
+              <span class="signal"><i></i><i></i><i></i><i></i></span><span class="wifi">◔</span
+              ><span class="battery"></span>
+            </div>
+          </div>
+          <iframe
+            id="app-screen"
+            src="__SCREEN__"
+            title="OOTRIP手机应用界面"
+            allow="camera"
+          ></iframe>
+          <div class="home-area" aria-hidden="true"><i></i></div>
+        </div>
+        <i class="volume-button" aria-hidden="true"></i
+        ><i class="power-button" aria-hidden="true"></i>
+      </div>
+    </main>
+    <script src="/phone.js"></script>
+  </body>
+</html>
