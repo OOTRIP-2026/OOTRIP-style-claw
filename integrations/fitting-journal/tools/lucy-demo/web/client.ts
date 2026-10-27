@@ -470,3 +470,5 @@ void readWardrobe()
   });
 render();
 void configuration();
+
+window.addEventListener('message', (event: MessageEvent) => { if (event.source === window.parent && event.origin === location.origin && event.data?.type === 'ootrip:module-close') finish('已返回衣橱，摄像头已关闭。', false); });
