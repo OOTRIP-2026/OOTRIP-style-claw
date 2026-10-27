@@ -1,0 +1,37 @@
+/* Personal home follows the supplied wardrobe reference; secondary pages retain their controls. */
+:root{--bg:#f8f5ef;--ink:#493727;--line:#e7ddd0;--fill:#f4eee6;--accent:#a99c8b}
+.page[data-page="home"]{font-family:SimSun,'Songti SC','Noto Serif CJK SC',serif;padding:0 18px 18px;background:radial-gradient(ellipse at 50% 13%,#fffdf880,transparent 65%),var(--bg)}
+html.embedded .page[data-page="home"]{padding:0 18px 18px}
+.page[data-page="home"] .profile{padding:8px 0 1px}
+.profile-portrait{position:relative;width:112px;margin:0 auto}
+.page[data-page="home"] .avatar{display:block;width:112px;height:112px;padding:0;border:0;border-radius:50%;background:#e4dacf;overflow:hidden}
+.page[data-page="home"] .avatar img{display:block;width:100%;height:100%;object-fit:cover}
+.profile-gift{position:absolute;right:0;bottom:-3px;width:32px;height:32px;padding:6px;display:grid;place-items:center;border:1px solid #eee5d9;border-radius:50%;background:#faf6ef;box-shadow:0 3px 8px #8e735519;color:#755a42}
+.profile-gift .icon{width:21px;height:21px}
+.page[data-page="home"] .profile h1{font:400 22px/1.35 SimSun,'Songti SC',serif;letter-spacing:2px;margin:17px 0 12px}
+.home-section .label{font-size:14px;line-height:20px;margin:0 0 9px;padding:0 0 5px;border-bottom:1px solid var(--line)}
+.home-section+.home-section{margin-top:18px}
+.home-section .quick{gap:27px;padding:6px 12px 2px}
+.home-section .quick button{height:59px;min-width:0;padding:4px 8px;gap:8px;background:linear-gradient(115deg,#faf7f1,#f2ece3);border:1px solid #e9dece;border-radius:13px;box-shadow:0 5px 11px #84684a0d;font-size:14px;white-space:nowrap}
+.quick img{width:53px;height:52px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 3px 3px #71583a18)}
+.quick img.quick-bag{width:48px;height:46px}
+.home-section .group{background:none;border:0;border-radius:0;margin:0;overflow:visible;display:grid;gap:5px}
+.home-section .row{min-height:44px;padding:6px 11px;gap:17px;border:1px solid #eee5db;border-radius:11px;background:linear-gradient(110deg,#f5efe7a6,#f2ece37a);font-size:14px;line-height:1.4}
+.home-section .tile{width:30px;height:30px;border-radius:6px;background:#e9dfd2;color:#604831}
+.home-section .tile .icon{width:23px;height:23px;stroke-width:1.45}
+.home-section .chev{font-family:Arial,sans-serif;color:#8e765e;font-size:23px;font-weight:300}
+.help-copy{font-size:14px;line-height:1.9;padding:0 4px}.help-copy h2{font-size:16px;font-weight:500;margin:22px 0 7px}.help-copy p{margin:0;color:#86725f}
+.nav{font-family:SimSun,'Songti SC',serif}
+button:focus-visible{outline-color:#92765a}
+@media(max-width:350px){.home-section .quick{gap:12px;padding-inline:0}.home-section .quick button{gap:5px;font-size:13px}.home-section .row{gap:12px}}
+
+/* Use the supplied portrait without changing its face or original composition. */
+.page[data-page="home"] .avatar{position:relative}
+.page[data-page="home"] .avatar img.reference-portrait{position:absolute;max-width:none;width:156.089%;height:170.664%;left:-23.616%;top:-21.033%;object-fit:fill}
+.page[data-page="home"] .profile h1{font-size:24px;font-weight:400;letter-spacing:3px;color:#392719}
+.profile-gift{width:33px;height:33px;right:0;bottom:-3px;color:#72583d;background:#faf7f0}
+.profile-gift .icon{stroke-width:1.55;width:23px;height:23px}
+.nav{left:13px;right:13px;bottom:22px;height:68px;padding:5px 12px;border:1px solid #e1dad1;border-radius:38px;background:#f8f5efef;box-shadow:0 2px 8px #90785c08;font-family:'Microsoft YaHei','PingFang SC',sans-serif}
+.nav button{border-radius:32px;color:#594b35;font-size:12px;gap:5px;line-height:1.2}
+.nav button.active{background:#aaa095;color:#fffdf8;box-shadow:inset 0 0 0 1px #b5aa9d}
+.nav svg{width:25px;height:25px;stroke-width:1.25}
