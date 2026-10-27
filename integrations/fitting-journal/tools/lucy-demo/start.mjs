@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { resolve, sep, extname } from 'node:path';
 import { fileURLToPath, pathToFileURL, URL } from 'node:url';
 import { createRequire } from 'node:module';
 import { createLucyExperiment } from '../lucy-realtime/server.mjs';
@@ -72,11 +73,21 @@ app.get('/journal.js', async (_request, reply) =>
 app.get('/journal.css', async (_request, reply) =>
   reply.type('text/css; charset=utf-8').send(await readFile(new URL('journal.css', web), 'utf8')),
 );
+// Serve the existing project from the same trusted origin as its AI modules.
+const appRoot = fileURLToPath(new URL('../../../../dist/', import.meta.url));
+const contentTypes = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml','.json':'application/json'};
+app.get('/app/', async (_request,reply) => reply.redirect('/app/index.html'));
+app.get('/app/*', async (request,reply) => {
+  const path = resolve(appRoot, request.params['*']);
+  if (!path.startsWith(resolve(appRoot)+sep)) return reply.code(403).send({message:'路径无效'});
+  try { return reply.type(contentTypes[extname(path)] || 'application/octet-stream').send(await readFile(path)); }
+  catch { return reply.code(404).send({message:'文件不存在，请先构建项目'}); }
+});
 process.once('SIGINT', () => void app.close());
 process.once('SIGTERM', () => void app.close());
 try {
   await app.listen({ host: '127.0.0.1', port: 3100 });
-  console.log('OOTRIP HTML 演示：http://127.0.0.1:3100');
+  console.log('OOTRIP 项目：http://127.0.0.1:3100/app/index.html');
   console.log('穿衣手账：http://127.0.0.1:3100/journal');
   console.log(`共用现有测试批次，剩余 ${budget.status().remaining}/10；打开网页不会调用AI。`);
 } catch {

@@ -9,6 +9,21 @@ export {
   selectRealtimeGarment,
 } from '../../../miniprogram/wardrobe/realtime.js';
 export type Garment = RealtimeGarment;
+const integrated = window.parent !== window && new URLSearchParams(location.search).get('integrated') === '1';
+function hostWardrobe<T>(method: 'read' | 'save', items?: readonly Garment[], remove = false): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const id = crypto.randomUUID();
+    const timer = setTimeout(() => { window.removeEventListener('message', receive); reject(new Error('衣橱响应超时，请返回后重新打开。')); }, 15000);
+    function receive(event: MessageEvent) {
+      if (event.source !== window.parent || event.origin !== location.origin || event.data?.type !== 'ootrip:wardrobe-result' || event.data.id !== id) return;
+      clearTimeout(timer); window.removeEventListener('message', receive);
+      if (event.data.error) reject(new Error(event.data.error)); else resolve(event.data.result as T);
+    }
+    window.addEventListener('message', receive);
+    window.parent.postMessage({type:'ootrip:wardrobe-rpc',id,method,items,remove}, location.origin);
+  });
+}
+
 function database(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('ootrip-html-demo-v1', 1);
@@ -18,6 +33,7 @@ function database(): Promise<IDBDatabase> {
   });
 }
 export async function readWardrobe(): Promise<Garment[]> {
+  if (integrated) return hostWardrobe<Garment[]>('read');
   const db = await database();
   try {
     return await new Promise((resolve, reject) => {
@@ -39,6 +55,7 @@ export async function readWardrobe(): Promise<Garment[]> {
   }
 }
 export async function saveGarments(items: readonly Garment[], remove = false) {
+  if (integrated) return hostWardrobe<void>('save',items,remove);
   const db = await database();
   try {
     await new Promise<void>((resolve, reject) => {
@@ -83,8 +100,7 @@ export async function importGarment(
     canvas.height = Math.max(1, Math.round(image.naturalHeight * ratio));
     const context = canvas.getContext('2d');
     if (!context) throw new Error('浏览器无法创建预览。');
-    context.fillStyle = '#fff';
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    if (!preserveAlpha) { context.fillStyle = '#fff'; context.fillRect(0, 0, canvas.width, canvas.height); }
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
     return {
       id: crypto.randomUUID(),

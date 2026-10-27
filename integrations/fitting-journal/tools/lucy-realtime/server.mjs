@@ -93,7 +93,7 @@ export function createLucyExperiment({
     if (
       request.headers.host !== '127.0.0.1:3100' ||
       (request.headers.origin && request.headers.origin !== EXPERIMENT_ORIGIN) ||
-      request.headers['sec-fetch-site'] === 'cross-site'
+      (request.headers['sec-fetch-site'] === 'cross-site' && !(request.method === 'GET' && request.url.split('?')[0] === '/app/index.html' && request.headers['sec-fetch-mode'] === 'navigate' && request.headers['sec-fetch-dest'] === 'document'))
     ) {
       return reply.code(403).send({ message: '请从电脑本机实验地址打开。' });
     }

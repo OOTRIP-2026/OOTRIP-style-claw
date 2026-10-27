@@ -1,1 +1,10 @@
-{"private":true,"scripts":{"build":"node build.mjs"}}
+{
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node --env-file-if-exists=.env integrations/fitting-journal/tools/lucy-demo/start.mjs",
+    "check:modules": "npm --prefix integrations/fitting-journal run typecheck",
+    "test:modules": "npm --prefix integrations/fitting-journal test",
+    "test:realtime": "npm --prefix integrations/fitting-journal run test:lucy"
+  }
+}
