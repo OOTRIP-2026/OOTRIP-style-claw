@@ -1,0 +1,29 @@
+/* Restore the reference rail proportions, with matching three-view canvases. */
+.rail-wardrobe{aspect-ratio:auto!important;overflow:hidden;padding-bottom:8px}
+.generated-rail .hanging-garment{height:191px}
+.generated-rail .hanging-garment .textile-garment{width:120px;height:160px;top:11px;left:calc(50% - 60px)}
+.generated-rail .textile-view img{object-fit:contain}
+.trip-garment .rail-hook{display:none!important}
+.generated-rail .legacy-sprite .textile-garment{width:90px;height:158px;left:calc(50% - 45px)}
+.generated-rail .legacy-sprite .textile-view{clip-path:inset(12% 0 12% 0)!important;overflow:hidden}
+.generated-rail .legacy-sprite .textile-view img{width:600%;height:600%;object-fit:fill;left:var(--sprite-x)}
+.generated-rail .legacy-sprite .textile-side img{top:var(--sprite-side-y)}
+.generated-rail .legacy-sprite .textile-front img{top:var(--sprite-front-y)}
+.generated-rail .legacy-sprite .rail-hook{display:block!important}
+.generated-rail .accessory-garment .textile-garment{top:37px;height:132px}
+.rail-hint{padding:7px 6px;margin:0;line-height:1.6}
+
+.generated-rail .trip-garment:not(.accessory-garment) .textile-garment{top:4px}
+
+.rail-category-title{margin:4px 8px 7px;font-size:11px;font-weight:400;letter-spacing:1px;color:#8c765a}
+.garment-rail-section{border-bottom:0}
+
+/* Reference silhouettes inherit the existing brown category colors. */
+.closet-category-icon svg{fill:currentColor;stroke:none;stroke-width:0}
+/* Shoes are displayed without a hanging rail; keep its drag target available. */
+.garment-rail-section[data-category="鞋子"] .rail-slide-handle>*{visibility:hidden}
+.garment-rail-section[data-category="鞋子"] .continuous-rail-hooks,
+.garment-rail-section[data-category="鞋子"] .rail-hook{display:none!important}
+
+/* Seven categories, with the all-items control first. */
+.closet-categories{grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}

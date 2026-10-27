@@ -1,3 +1,5 @@
+import { registerDestinationArtwork } from './destination-artwork.js';
+import { resolve } from 'node:path';
 import type { FastifyInstance } from 'fastify';
 import { imageMime, visionSettings } from '../../server/src/ai/qwen-garment.js';
 import { registerJournalArtwork } from './journal-artwork.js';
@@ -68,6 +70,7 @@ export function registerJournal(
   transport: typeof fetch = fetch,
 ) {
   registerJournalArtwork(app, environment, transport);
+  registerDestinationArtwork(app, environment, resolve('integrations/fitting-journal/server/data/destination-artwork'), transport);
   let busy = false;
   app.get('/journal/status', async () => {
     try {

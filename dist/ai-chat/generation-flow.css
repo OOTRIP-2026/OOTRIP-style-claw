@@ -1,0 +1,39 @@
+/* Soft optical haze: diffuse for 500ms, hold for 800ms, then enter loading. */
+.generation-intro .home-city,.generation-intro .home-tags span,.generation-intro .home-activity {
+  animation: preference-haze 500ms cubic-bezier(.22,.61,.36,1) both;
+}
+@keyframes preference-haze {
+  from { filter: blur(0); opacity: 1; }
+  to { filter: blur(5px); opacity: .65; }
+}
+.generation-scroll{display:flex;overflow:hidden!important}.generation-page{width:100%;height:100%;display:flex;flex-direction:column;min-height:0}.generation-title{position:absolute;left:50%;transform:translateX(-50%);margin:0;font-size:17px;font-weight:500;white-space:nowrap}.generation-hero{display:flex;align-items:center;flex-direction:column;padding:5px 0 10px;flex-shrink:0}.generation-hero img{width:clamp(88px,19vh,155px);aspect-ratio:1;object-fit:cover;border-radius:50%;border:1px solid #e9dfd5;mix-blend-mode:multiply}.generation-hero h1{font-size:18px;font-weight:500;margin:5px 0 0}.generation-sheet{border:1px solid #e9e0d7;border-bottom:0;border-radius:34px 34px 0 0;min-height:0;flex:1;display:flex;flex-direction:column;padding:9px 16px 0}.generation-grip{width:40px;height:4px;background:#d7d2ca;border-radius:5px;margin:0 auto 13px;flex-shrink:0}.generation-trip{display:flex;justify-content:space-between;gap:8px;padding-bottom:12px;flex-shrink:0}.generation-city{display:inline-block;background:#c78983;color:white;padding:5px 15px;border-radius:30px;font-size:13px}.generation-dates{font-size:11px;white-space:nowrap;margin:8px 0 0}.generation-tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;align-content:flex-start;max-width:53%}.generation-tags span{font-size:11px;background:#f0e9e0;padding:5px 10px;border-radius:20px;white-space:nowrap}.generation-results{min-height:0;flex:1;display:flex;position:relative;border-top:1px solid #e9dfd5}.generation-loading{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #e9dfd5;border-top:0;background:#f5f0e9;padding:12px;gap:10px}.generation-circle{width:min(60vw,240px);aspect-ratio:1;position:relative;overflow:hidden;border-radius:50%;background:#f2e9e3}.generation-circle video{position:absolute;width:140%;height:auto;max-width:none;left:-20%;top:-48%}.generation-track{height:5px;width:105px;background:#d8c9bc;border-radius:20px;overflow:hidden}.generation-track i{display:block;height:100%;width:0;background:#a84850;border-radius:inherit}.generation-label{font-size:12px;color:#816653;margin:0}.generation-looks{width:100%;min-height:0;overflow-y:auto;padding-top:10px}.generation-looks h2{font-size:14px;font-weight:600;margin:0 0 10px}.generation-carousel{padding:0 0 5px;gap:10px}.generation-carousel .outfit{padding:0;flex:0 0 83%;border:0;background:#f1eae1;border-radius:17px;display:flex;flex-direction:column}.generation-carousel .card-head{order:2;justify-content:center;padding:7px;min-height:0}.generation-carousel .card-head time{margin:0;color:#302019;font-size:11px}.generation-carousel .card-head strong,.generation-carousel h3,.generation-carousel p,.generation-carousel .card-save{display:none}.generation-carousel .image-button{border-radius:0}.generation-carousel .image-button img{aspect-ratio:.96;max-height:39vh}.generating-outfits .composer-wrap{padding-top:10px!important}.generating-outfits .composer{min-height:44px}.generating-outfits .composer textarea{font-size:12px}
+@media(prefers-reduced-motion:reduce){.generation-intro .home-city,.generation-intro .home-tags span,.generation-intro .home-activity{animation:none;opacity:1;filter:none;mask-image:none;-webkit-mask-image:none}}
+
+
+/* Loading occupies the full embedded screen with a narrow inset frame. */
+.generation-loading {
+  position:fixed;
+  inset: max(22px, env(safe-area-inset-top, 0px)) 8px max(16px, env(safe-area-inset-bottom, 0px));
+  z-index:10;
+  width:auto;
+  height:auto;
+  border:1px solid #e9dfd5;
+  background:#f5f0e9;
+  padding:24px;
+  gap:12px;
+}
+
+/* Cover the entire phone viewport, including the header and composer. */
+.generation-loading {
+  inset:0;
+  z-index:100;
+  border:0;
+  padding:0;
+  justify-content:flex-start;
+  padding-top:clamp(100px,32vh,360px);
+}
+.generation-loading .generation-circle {
+  width:min(50vw,220px);
+  flex-shrink:0;
+}
+.generation-intro .home-city,.generation-intro .home-tags span,.generation-intro .home-activity{animation-delay:2.1s}.home video.hero-owl{object-fit:cover;display:block}

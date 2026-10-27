@@ -109,6 +109,8 @@ export function createLucyExperiment({
     void reply.code(500).send({ message: '实验服务未能完成操作，未自动重试。' });
   });
 
+  app.get('/destinations/session', async () => ({ nonce: pageNonce }));
+
   app.get('/', async (_request, reply) => {
     return reply
       .type('text/html; charset=utf-8')
