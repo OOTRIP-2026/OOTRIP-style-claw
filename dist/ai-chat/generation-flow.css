@@ -59,3 +59,18 @@
 .generation-results{display:block}
 .generation-looks{overflow:visible;padding-bottom:24px}
 .generation-hero,.generation-trip{max-height:none;opacity:1}
+
+/* Full-screen clothing rain stays beneath the original loading foreground. */
+.generation-loading{isolation:isolate;overflow:hidden}
+.generation-falling-icons{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.generation-falling-icon{position:absolute;left:var(--icon-x);top:-60px;width:var(--icon-size);height:var(--icon-size);color:#d6bfae;opacity:0;animation:outfit-icon-fall var(--icon-duration) linear var(--icon-delay) infinite;animation-play-state:paused;will-change:transform}
+.generation-page[data-phase=loading] .generation-falling-icon{animation-play-state:running}
+.generation-falling-icon img{display:block;width:100%;height:100%;object-fit:contain}
+.generation-falling-icon>i{display:block;width:7px;height:7px;margin:10px;border-radius:50%;background:currentColor}
+@keyframes outfit-icon-fall{
+  0%{transform:translate3d(0,0,0) rotate(calc(var(--icon-turn) * -1));opacity:0}
+  8%{opacity:1}
+  88%{opacity:1}
+  100%{transform:translate3d(var(--icon-drift),calc(100vh + 80px),0) rotate(var(--icon-turn));opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.generation-falling-icon{animation:none;display:none}}

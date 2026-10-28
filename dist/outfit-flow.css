@@ -36,6 +36,9 @@
 .saved-outfit-drag-ghost img{display:block;width:100%;height:calc(100% - 28px);object-fit:contain}
 .saved-outfit-drag-ghost span{display:block;text-align:center;font-size:12px;color:#715c44}
 .saved-outfit-dragging .saved-outfit-trash{z-index:5}
+.wardrobe-trip .daily-outfit-trash{left:auto;right:0;top:22px}
+.daily-outfit-card:not(.outfit-empty){touch-action:none;user-select:none;-webkit-user-select:none}
+.daily-outfit-card.is-drag-source{opacity:.25}
 .saved-delete-status{display:flex;align-items:center;justify-content:center;gap:12px;font-size:12px;color:#8b765f;min-height:0}
 .saved-delete-status button{border:0;background:none;color:#7d5f3f;text-decoration:underline;padding:2px 5px}
 @media(prefers-reduced-motion:reduce){.saved-outfit-trash,.saved-outfit-trash .trash-lid{transition:none}}

@@ -8,3 +8,24 @@
 
 #photo-toggle,#toggle-wardrobe{display:none!important}
 #quota{display:block!important;font-size:11px;line-height:1.5}
+
+/* Invisible bounds from the supplied placement guide; preserve body proportions. */
+.stage #person-preview.builtin-model,.stage #result-preview.builtin-preset{left:23.3%;top:2.8%;width:52.7%;height:94.8%;object-fit:contain;object-position:center top}
+
+.person-picker{width:calc(100% - 28px);max-width:480px;max-height:94%;padding:28px 22px 18px;border:0;border-radius:26px;background:#faf7f1;color:#6d5f4e;overflow-y:auto;box-shadow:none}
+.person-picker::backdrop{background:#3d38242b}
+.person-picker[data-view=choices]{width:calc(100% - 48px);max-width:420px;padding:26px 16px 18px;border-radius:22px}
+.person-picker[data-view=choices] h2{font-size:18px;margin:4px 0 16px}
+.person-picker[data-view=choices] .person-picker-actions button{padding:8px}
+.person-picker h2{font-size:22px;line-height:1.5;margin:0 24px 10px 0;font-weight:700}
+.person-picker .person-picker-close{position:absolute;right:14px;top:9px;width:30px;height:30px;padding:0;border:0;background:transparent;font:300 32px/1 Arial,sans-serif;color:#756953}
+.person-picker-actions{display:flex;gap:4px;flex-wrap:wrap}
+.person-picker-actions button{padding:7px 13px;border:1px solid #e3dcd1;border-radius:22px;background:transparent;font-size:12px;white-space:nowrap}
+.person-picker-actions button[aria-pressed=true]{border-color:#b4a28d;background:#fffdf8;font-weight:600}
+.person-models>p{margin:12px 0;font-size:12px}
+.person-model-track{display:flex;position:relative;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;touch-action:pan-x;overscroll-behavior-x:contain;padding:0;cursor:grab}
+.person-model-card{flex:0 0 100%;min-width:0;scroll-snap-align:center;scroll-snap-stop:always;border:1px solid #dfd0bc;border-radius:16px;background:#fffdfa;padding:8px 10px 9px;user-select:none;-webkit-user-select:none;opacity:calc(1 - var(--model-distance,0)*.5);transform:scale(calc(1 - var(--model-distance,0)*.045));transform-origin:center;will-change:transform,opacity}
+.person-model-card img{display:block;width:100%;height:clamp(200px,48dvh,440px);object-fit:contain;pointer-events:none;background:#f5f5f6;border-radius:3px}
+.person-model-card span{display:block;text-align:center;font-size:14px;font-weight:600;padding-top:8px}
+.person-model-status:empty{display:none}
+@media(prefers-reduced-motion:reduce){.person-model-card{transform:none;opacity:1;will-change:auto}}

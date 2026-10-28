@@ -22,13 +22,13 @@ function showSavedOutfits(){
  undo.onclick=()=>{if(!deleted)return;const next=savedOutfits.slice();next.splice(Math.min(deleted.index,next.length),0,deleted.look);if(save(next)){deleted=null;undo.hidden=true;status.querySelector('span').textContent='已恢复搭配';renderSaved()}};
  renderSaved();layer.querySelector('#saved-new').onclick=()=>openOutfitCanvas();
 }
-function installSavedOutfitDrag(card,sheet,trash,layer,onDelete){
+function installSavedOutfitDrag(card,sheet,trash,layer,onDelete,options={}){
  let drag=null,suppressUntil=0;
  function over(x,y){const r=trash.getBoundingClientRect();return x>=r.left-18&&x<=r.right+18&&y>=r.top-18&&y<=r.bottom+18}
  function draw(x,y){if(!drag?.ghost)return;drag.ghost.style.left=x-drag.offsetX+'px';drag.ghost.style.top=y-drag.offsetY+'px';trash.classList.toggle('is-open',over(x,y))}
  function lift(){if(!drag||drag.scrolling||!card.isConnected)return;drag.active=true;const r=card.getBoundingClientRect();drag.offsetX=drag.x-r.left;drag.offsetY=drag.y-r.top;const ghost=card.cloneNode(true);ghost.className='saved-outfit-drag-ghost';ghost.style.width=r.width+'px';ghost.style.height=r.height+'px';ghost.setAttribute('aria-hidden','true');ghost.tabIndex=-1;document.body.append(ghost);drag.ghost=ghost;card.classList.add('is-drag-source');layer.classList.add('saved-outfit-dragging');draw(drag.x,drag.y)}
- card.onpointerdown=e=>{if(e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,startY:e.clientY,scrollTop:sheet.scrollTop,active:false,scrolling:false};card.setPointerCapture(e.pointerId);if(e.pointerType!=='mouse')drag.timer=setTimeout(lift,400)};
- card.onpointermove=e=>{if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.startY;if(!drag.active&&Math.max(Math.abs(dx),Math.abs(dy))>8){clearTimeout(drag.timer);if(e.pointerType==='mouse')lift();else drag.scrolling=true}if(drag.active){e.preventDefault();draw(e.clientX,e.clientY)}else if(drag.scrolling){e.preventDefault();sheet.scrollTop=drag.scrollTop-dy}};
+ card.onpointerdown=e=>{if(e.button!==0)return;if(options.daily)e.stopPropagation();drag={id:e.pointerId,x:e.clientX,y:e.clientY,startY:e.clientY,scrollTop:sheet.scrollTop,scrollLeft:sheet.scrollLeft,active:false,scrolling:false};card.setPointerCapture(e.pointerId);if(options.daily||e.pointerType!=='mouse')drag.timer=setTimeout(lift,400)};
+ card.onpointermove=e=>{if(!drag||drag.id!==e.pointerId)return;if(options.daily)e.stopPropagation();const dx=e.clientX-drag.x,dy=e.clientY-drag.startY;if(!drag.active&&Math.max(Math.abs(dx),Math.abs(dy))>8){clearTimeout(drag.timer);if(e.pointerType==='mouse'&&!options.daily)lift();else drag.scrolling=true}if(drag.active){e.preventDefault();draw(e.clientX,e.clientY)}else if(drag.scrolling){e.preventDefault();if(options.daily)sheet.scrollLeft=drag.scrollLeft-dx;else sheet.scrollTop=drag.scrollTop-dy}};
  function finish(e,cancel=false){if(!drag||drag.id!==e.pointerId)return;const current=drag;drag=null;clearTimeout(current.timer);const remove=current.active&&!cancel&&over(e.clientX,e.clientY);current.ghost?.remove();card.classList.remove('is-drag-source');layer.classList.remove('saved-outfit-dragging');trash.classList.remove('is-open');if(current.active||current.scrolling)suppressUntil=performance.now()+450;if(card.hasPointerCapture(e.pointerId))card.releasePointerCapture(e.pointerId);if(remove)onDelete()}
  card.onpointerup=e=>finish(e);card.onpointercancel=e=>finish(e,true);card.onlostpointercapture=e=>finish(e,true);
  card.addEventListener('click',e=>{if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation()}},true);
@@ -114,6 +114,29 @@ async function saveOutfitCanvas(){
 function openAIChat(){const trip=getTripData();const layer=outfitModal('<iframe id="ai-chat-frame" title="AI搭配对话" style="display:block;width:100%;height:100%;border:0;background:#f8f5ee"></iframe>','AI搭配');layer.style.cssText='position:absolute;inset:52px 0 0;z-index:100;overflow:hidden;background:#f8f5ee';layer.querySelector('iframe').src='ai-chat/index.html#trip='+encodeURIComponent(JSON.stringify(trip));}
 function chatLookStorageKey(trip){return 'ootrip-chat-applied:'+JSON.stringify([trip.destination,trip.departure,trip.returnDate])}
 const chatLookImages=['look1','look2','look3','look3-sneakers','day3','day4','pack1','pack2','pack3','colorful','extra-look1','extra-look2','extra-look3'];
+function clearDailyOutfit(trip,day){
+ const key=chatLookStorageKey(trip),records=JSON.parse(localStorage.getItem(key)||'[]');
+ localStorage.setItem(key,JSON.stringify(Array.isArray(records)?records.filter(look=>look.day!==day+1):[]));
+ const linksKey='ootrip-destination-looks',links=JSON.parse(localStorage.getItem(linksKey)||'{}'),tripId=[trip.destination,trip.departure,trip.returnDate].join('|');
+ if(Array.isArray(links[tripId])){links[tripId]=links[tripId].filter(([savedDay])=>savedDay!==day);localStorage.setItem(linksKey,JSON.stringify(links))}
+ dailyOutfitImages.delete(day);
+}
+const buildDailyOutfitsWithoutTrash=buildDailyOutfits;
+buildDailyOutfits=function(trip){
+ buildDailyOutfitsWithoutTrash(trip);
+ const carousel=$('outfit-carousel'),host=carousel.closest('.wardrobe-home')||carousel.parentElement;
+ host.querySelector('.daily-outfit-trash')?.remove();
+ const trash=document.createElement('div');trash.className='saved-outfit-trash daily-outfit-trash';trash.setAttribute('role','img');trash.setAttribute('aria-label','长按当天穿搭拖到这里，清空当天方案');
+ trash.innerHTML='<svg viewBox="0 0 40 44" aria-hidden="true"><path class="trash-body" d="M9 16h22l-2 22a4 4 0 0 1-4 4H15a4 4 0 0 1-4-4Z"/><path class="trash-lines" d="m16 21 1 15m6-15-1 15"/><g class="trash-lid"><path d="M7 12h26v4H7Z"/><path d="M15 12V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4h-3V9h-4v3Z"/></g></svg>';
+ const tripDetails=host.querySelector('.wardrobe-trip');if(tripDetails)tripDetails.prepend(trash);
+ for(const card of carousel.querySelectorAll('.daily-outfit-card:not(.outfit-empty)')){
+  card.title='长按拖到垃圾桶，清空当天穿搭';
+  installSavedOutfitDrag(card,carousel,trash,host,()=>{
+   const day=Number(card.dataset.day);
+   try{clearDailyOutfit(trip,day);activeTripDay=day;showWardrobe('ai');$('wardrobe-message').textContent='已清空第 '+(day+1)+' 天的穿搭，已有搭配仍保留'}catch{$('wardrobe-message').textContent='清空失败，请重试'}
+  },{daily:true});
+ }
+};
 function saveConfirmedChatOutfits(looks){
  const next=savedOutfits.slice(),urls=new Set(next.map(look=>look.url));
  for(const look of looks){if(!chatLookImages.includes(look.image))continue;const url='ai-chat/assets/'+look.image+'.jpg';if(!urls.has(url)){next.push({version:2,url,source:'ai',name:'AI 搭配',createdAt:Date.now()});urls.add(url)}}

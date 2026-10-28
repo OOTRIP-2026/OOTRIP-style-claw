@@ -223,6 +223,35 @@ var category = "\u4E0A\u8863";
 var configured = false;
 var busy = false;
 var closed = false;
+var selectedModelShape = "";
+function presetFittingPreview(shape, garments) {
+  if (garments.length !== 1) return "";
+  const presets = {
+    "hourglass:saved-outfit-b227acfbd0ead44f": "gingham-hourglass-hd-v2.png",
+    "straight:saved-outfit-b227acfbd0ead44f": "gingham-straight-hd-v2.png",
+    "pear:saved-outfit-b665af21d10cf54d": "khaki-pear-hd-v1.png",
+    "pear:saved-outfit-86d36292d0fbed4c": "cream-pear-hd-v1.png"
+  };
+  const asset = presets[shape + ":" + garments[0]?.id];
+  if (!asset) return "";
+  const root = location.pathname === "/photo-screen" ? "/app/assets/fitting-previews/" : "../assets/fitting-previews/";
+  return root + asset;
+}
+function applyPresetFittingPreview() {
+  if (result || !person) return;
+  const preview = presetFittingPreview(selectedModelShape, selected);
+  if (!preview) return;
+  result = preview;
+  el("result-preview").classList.add("builtin-preset");
+  el("result-preview").src = preview;
+  el("result-preview").alt = (selectedModelShape === "pear" ? "\u68A8\u578B" : selectedModelShape === "hourglass" ? "\u6C99\u6F0F\u578B" : "H\u578B") + "\u5DF2\u9009\u5957\u88C5\u53C2\u8003\u6548\u679C";
+  el("result-preview").hidden = false;
+  el("person-preview").hidden = true;
+  el("original").textContent = "\u67E5\u770B\u539F\u56FE";
+  el("original").hidden = false;
+  el("download-photo").disabled = false;
+  status("\u5DF2\u5C55\u793A\u8FD9\u5957\u642D\u914D\u5BF9\u5E94\u8EAB\u578B\u7684\u9884\u8BBE\u53C2\u8003\u6548\u679C\u3002");
+}
 var controller;
 var status = (message) => {
   el("photo-status").textContent = message;
@@ -237,8 +266,10 @@ function clearResult() {
   el("person-preview").hidden = !person;
   el("original").textContent = "\u67E5\u770B\u539F\u56FE";
   el("result-preview").hidden = true;
+  el("result-preview").classList.remove("builtin-preset");
   el("original").hidden = true;
   el("download-photo").disabled = true;
+  applyPresetFittingPreview();
 }
 function renderSelection() {
   const list = el("photo-selection");
@@ -315,6 +346,8 @@ el("person-file").onchange = async () => {
   update();
   try {
     person = (await importGarment(file, file.name, "\u4E0A\u8863", true)).image;
+    selectedModelShape = "";
+    el("person-preview").classList.remove("builtin-model");
     el("person-preview").src = person;
     el("person-preview").hidden = false;
     el("empty").hidden = true;
@@ -399,7 +432,171 @@ function photoClosetView(detail) {
 }
 el("photo-toggle").onclick = () => photoClosetView(false);
 el("photo-category-back").onclick = () => photoClosetView(false);
-el("empty").onclick = () => el("person-file").click();
+var personDialog = document.createElement("dialog");
+personDialog.className = "person-picker";
+personDialog.setAttribute("aria-labelledby", "person-picker-title");
+personDialog.innerHTML = '<button type="button" class="person-picker-close" data-person-close aria-label="\u5173\u95ED\u4EBA\u7269\u9009\u62E9" hidden>\xD7</button><h2 id="person-picker-title">\u9009\u62E9\u8BD5\u8863\u4EBA\u7269</h2><div class="person-picker-actions"><button type="button" data-person-all>\u5173\u95ED</button><button type="button" data-person-upload>\u4E0A\u4F20\u5168\u8EAB\u7167</button><button type="button" data-person-model>\u9009\u62E9AI\u6A21\u7279</button></div><section class="person-models" hidden><p>\u9009\u62E9\u8EAB\u578B\uFF0C\u5DE6\u53F3\u6ED1\u52A8\u67E5\u770B\u66F4\u591A</p><div class="person-model-track" tabindex="0" aria-label="\u9009\u62E9\u6A21\u7279\u8EAB\u578B\uFF0C\u53EF\u5DE6\u53F3\u6ED1\u52A8"></div><p class="person-model-status" role="status"></p></section>';
+document.body.append(personDialog);
+var personReturnFocus = null;
+function setPersonPickerView(models) {
+  personDialog.dataset.view = models ? "models" : "choices";
+  personDialog.querySelector(".person-models").hidden = !models;
+  personDialog.querySelector(".person-picker-actions").hidden = models;
+  personDialog.querySelector("[data-person-close]").hidden = !models;
+  if (models) requestAnimationFrame(() => {
+    modelTrack.scrollLeft = modelStep() * 5;
+    updateModelCardMotion();
+  });
+}
+function openPersonPicker() {
+  if (busy) return;
+  personReturnFocus = document.activeElement;
+  setPersonPickerView(false);
+  personDialog.showModal();
+}
+function closePersonPicker() {
+  personDialog.close();
+  personReturnFocus?.focus();
+}
+personDialog.querySelector("[data-person-close]").onclick = closePersonPicker;
+personDialog.querySelector("[data-person-upload]").onclick = () => {
+  closePersonPicker();
+  el("person-file").click();
+};
+personDialog.querySelector("[data-person-all]").onclick = closePersonPicker;
+personDialog.querySelector("[data-person-model]").onclick = () => {
+  setPersonPickerView(true);
+  personDialog.querySelector("[data-person-close]").focus();
+};
+personDialog.addEventListener("click", (event) => {
+  if (event.target === personDialog) {
+    const rect = personDialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closePersonPicker();
+  }
+});
+var modelTrack = personDialog.querySelector(".person-model-track");
+var modelRoot = location.pathname === "/photo-screen" ? "/app/assets/fitting-models/" : "../assets/fitting-models/";
+async function modelPreviewImage(blob, shape) {
+  const source = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(Error("\u6A21\u7279\u56FE\u7247\u8BFB\u53D6\u5931\u8D25"));
+    reader.readAsDataURL(blob);
+  });
+  if (!["apple", "pear"].includes(shape)) return source;
+  const image = new Image();
+  image.src = source;
+  await image.decode();
+  const stage = el("person-preview").parentElement.getBoundingClientRect(), width = image.naturalWidth, height = image.naturalHeight;
+  const boundsRatio = stage.width > 0 && stage.height > 0 ? stage.height * 0.948 / (stage.width * 0.527) : 868 / 249;
+  const targetHeight = Math.max(height, Math.round(width * boundsRatio));
+  if (targetHeight === height) return source;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = targetHeight;
+  const context = canvas.getContext("2d");
+  if (!context) throw Error("\u65E0\u6CD5\u8C03\u6574\u6A21\u7279\u9884\u89C8");
+  const legStart = Math.round(height * 0.56), shoeStart = Math.round(height * 0.88), shoeHeight = height - shoeStart;
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  context.drawImage(image, 0, 0, width, legStart, 0, 0, width, legStart);
+  context.drawImage(image, 0, legStart, width, shoeStart - legStart, 0, legStart, width, targetHeight - legStart - shoeHeight);
+  context.drawImage(image, 0, shoeStart, width, shoeHeight, 0, targetHeight - shoeHeight, width, shoeHeight);
+  return canvas.toDataURL("image/png");
+}
+for (const [file, name] of [["apple", "\u82F9\u679C\u578B"], ["hourglass", "\u6C99\u6F0F\u578B"], ["pear", "\u68A8\u578B"], ["straight", "H\u578B"], ["inverted", "\u5012\u4E09\u89D2\u578B"]]) {
+  const button = document.createElement("button"), image = document.createElement("img"), label = document.createElement("span");
+  button.type = "button";
+  button.className = "person-model-card";
+  image.src = modelRoot + file + "-hd-v3.png";
+  image.alt = name + "\u8BD5\u8863\u6A21\u7279";
+  image.draggable = false;
+  label.textContent = name;
+  button.append(image, label);
+  button.onclick = async () => {
+    if (busy) return;
+    busy = true;
+    update();
+    modelTrack.querySelectorAll("button").forEach((b) => b.disabled = true);
+    const feedback = personDialog.querySelector(".person-model-status");
+    feedback.textContent = "\u6B63\u5728\u8F7D\u5165\u6A21\u7279\u2026";
+    try {
+      const response = await fetch(modelRoot + file + "-hd-v3.png");
+      if (!response.ok) throw Error("\u6A21\u7279\u56FE\u7247\u8BFB\u53D6\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+      const blob = await response.blob();
+      person = await modelPreviewImage(blob, file);
+      selectedModelShape = file;
+      const preview = el("person-preview");
+      preview.classList.add("builtin-model");
+      preview.src = person;
+      preview.alt = name + "\u8BD5\u8863\u6A21\u7279";
+      el("empty").hidden = true;
+      clearResult();
+      el("photo-consent").checked = false;
+      closePersonPicker();
+    } catch (error) {
+      feedback.textContent = error instanceof Error ? error.message : "\u6A21\u7279\u8F7D\u5165\u5931\u8D25";
+    } finally {
+      busy = false;
+      modelTrack.querySelectorAll("button").forEach((b) => b.disabled = false);
+      if (!personDialog.open) feedback.textContent = "";
+      update();
+    }
+  };
+  modelTrack.append(button);
+}
+var originalModelCards = [...modelTrack.querySelectorAll(".person-model-card")];
+function cloneModelCards() {
+  return originalModelCards.map((original) => {
+    const clone = original.cloneNode(true);
+    clone.onclick = original.onclick;
+    return clone;
+  });
+}
+modelTrack.prepend(...cloneModelCards());
+modelTrack.append(...cloneModelCards());
+function modelStep() {
+  return modelTrack.firstElementChild?.offsetWidth + 14;
+}
+var modelLoopTimer;
+function settleModelLoop() {
+  if (!personDialog.open || personDialog.dataset.view !== "models") return;
+  const step = modelStep(), index = Math.round(modelTrack.scrollLeft / step);
+  if (index < 5 || index >= 10) {
+    const target = ((index % 5 + 5) % 5 + 5) * step;
+    modelTrack.style.scrollSnapType = "none";
+    modelTrack.scrollLeft = target;
+    updateModelCardMotion();
+    requestAnimationFrame(() => modelTrack.style.removeProperty("scroll-snap-type"));
+  }
+}
+modelTrack.addEventListener("scroll", () => {
+  clearTimeout(modelLoopTimer);
+  modelLoopTimer = setTimeout(settleModelLoop, 180);
+}, { passive: true });
+modelTrack.addEventListener("scrollend", settleModelLoop);
+horizontalScroll(modelTrack);
+function updateModelCardMotion() {
+  const cards = [...modelTrack.querySelectorAll(".person-model-card")], center = modelTrack.scrollLeft + modelTrack.clientWidth / 2;
+  for (const card of cards) {
+    const distance = Math.min(1, Math.abs(card.offsetLeft + card.offsetWidth / 2 - center) / Math.max(1, modelTrack.clientWidth));
+    card.style.setProperty("--model-distance", String(distance));
+  }
+}
+var modelMotionFrame = 0;
+modelTrack.addEventListener("scroll", () => {
+  cancelAnimationFrame(modelMotionFrame);
+  modelMotionFrame = requestAnimationFrame(updateModelCardMotion);
+}, { passive: true });
+modelTrack.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+    event.preventDefault();
+    const step = modelTrack.firstElementChild?.getBoundingClientRect().width || modelTrack.clientWidth;
+    modelTrack.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * (step + 14), behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth" });
+  }
+});
+el("empty").onclick = openPersonPicker;
+el("change-person").onclick = openPersonPicker;
 photoClosetView(false);
 el("garment-file").onchange = async () => {
   const input = el("garment-file"), file = input.files?.[0];

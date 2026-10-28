@@ -1,6 +1,6 @@
-.destination-layer{position:absolute;inset:0;z-index:34;color:#322b23}
+.destination-layer{position:absolute;inset:0 0 var(--destination-nav-inset,118px);z-index:34;color:#322b23;overflow:hidden}
 .destination-backdrop{position:absolute;inset:0;border:0;background:#3d32220a;width:100%;height:100%;padding:0}
-.destination-sheet{position:absolute;left:0;right:0;bottom:0;min-height:240px;padding:10px 20px 100px;background:#f8f4ee;border:1px solid #e0d8ce;border-bottom:0;border-radius:28px 28px 0 0;box-shadow:0 -5px 22px #5d4a3010;animation:destinationSlide .25s ease-out;touch-action:auto}
+.destination-sheet{position:absolute;left:0;right:0;bottom:0;min-height:200px;padding:10px 20px 18px;background:#f8f4ee;border:1px solid #e0d8ce;border-bottom:0;border-radius:28px 28px 0 0;box-shadow:0 -5px 22px #5d4a3010;animation:destinationSlide .32s ease-out both;touch-action:auto}
 .destination-grip{display:block;width:100%;height:15px;padding:0;border:0;background:none;touch-action:none;cursor:grab}
 .destination-grip:before{content:'';display:block;width:32px;height:5px;border-radius:4px;background:#cfc6bc;margin:auto}
 .destination-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 2px 10px}
@@ -19,8 +19,10 @@
 .destination-sheet-message{font-size:10px;line-height:1.5;color:#9c9388;margin:5px 0 0}
 .destination-layer.is-closing{pointer-events:none}.destination-layer.is-closing .destination-sheet{animation:destinationSlideOut .18s ease-in both}.destination-layer.is-closing .destination-backdrop{opacity:0}
 .wardrobe-trip #wardrobe-destination{cursor:pointer;outline-offset:5px;border-radius:5px}.wardrobe-trip #wardrobe-destination:focus-visible{outline:2px solid #b99a7d}
-@keyframes destinationSlide{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@keyframes destinationSlideOut{to{transform:translateY(100%)}}
+.wardrobe-trip .destination-link{display:none}
+.phone-frame.destination-panel-open .wardrobe-trip{visibility:hidden;pointer-events:none}
+@keyframes destinationSlide{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes destinationSlideOut{to{transform:translateY(100%);opacity:0}}
 @media(prefers-reduced-motion:reduce){.destination-sheet,.destination-layer.is-closing .destination-sheet{animation:none}}
 
 

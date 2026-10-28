@@ -13,7 +13,7 @@ if (build) {
  mkdirSync(output, { recursive: true });
  for (const file of ['photo.css','style.css','mobile.css','module-theme.css','journal.css']) writeFileSync(new URL(file,output),readFileSync(new URL(file,web)));
  for (const [source,target] of [['photo.html','photo-screen.html'],['index.html','fitting-screen.html'],['journal.html','journal-screen.html']]) {
-  const html=readFileSync(new URL(source,web),'utf8').replace(/((?:src|href)=")\/(?!\/)/g,'$1./').replace('content="__NONCE__"','content=""').replace('</head>','<script src="./static-api.js"></script></head>');
+  const html=readFileSync(new URL(source,web),'utf8').replace(/((?:src|href)=")\/app\/modules\//g,'$1./').replace(/((?:src|href)=")\/(?!\/)/g,'$1./').replace('content="__NONCE__"','content=""').replace('</head>','<script src="./static-api.js"></script></head>');
   writeFileSync(new URL(target,output),html);
  }
  writeFileSync(new URL('static-api.js',output),`(()=>{const original=window.fetch.bind(window);window.fetch=(input,options)=>{const url=new URL(typeof input==='string'?input:input instanceof URL?input.href:input.url,location.href);if(url.origin===location.origin&&/^\\/(experiment|fitting|journal|destinations)\\//.test(url.pathname)){const status=url.pathname.endsWith('/status');return Promise.resolve(new Response(JSON.stringify({configured:false,available:false,message:'当前为静态展示，可使用上传、选衣和本机手账；AI功能需要已配置的后端。'}),{status:status?200:503,headers:{'Content-Type':'application/json'}}))}return original(input,options)}})();`);

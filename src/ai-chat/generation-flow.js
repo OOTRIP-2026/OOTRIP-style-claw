@@ -9,6 +9,17 @@
  page.querySelector('.generation-dates').textContent=chatTrip.departure.replaceAll('-','.')+'–'+chatTrip.returnDate.replaceAll('-','.');
  for(const text of [...chatTrip.styles,chatTrip.scene].filter(Boolean)){const tag=document.createElement('span');tag.textContent=text;page.querySelector('.generation-tags').append(tag);}
  const video=page.querySelector('video'),loading=page.querySelector('.generation-loading'),looks=page.querySelector('.generation-looks'),results=page.querySelector('.generation-results'),bar=page.querySelector('.generation-track'),fill=bar.firstElementChild,label=page.querySelector('.generation-label');
+ // Quiet clothing silhouettes sit behind the existing owl and progress animation.
+ const fallingIcons=document.createElement('div');fallingIcons.className='generation-falling-icons';fallingIcons.setAttribute('aria-hidden','true');
+ const iconAssets=['dress','bag','heel','short-dress','shirt','jacket','trousers','tee','shoulder-bag'];
+ for(let i=0;i<22;i++){
+  const icon=document.createElement('span');icon.className='generation-falling-icon';
+  const x=7+(i*37%87),duration=6.8+(i%5)*.75;
+  icon.style.cssText=`--icon-x:${x}%;--icon-size:${i%3===0?38:32}px;--icon-duration:${duration}s;--icon-delay:${-(i/22)*duration}s;--icon-turn:${(i%2?1:-1)*7}deg;--icon-drift:${i%2?18:-18}px`;
+  icon.innerHTML=i%4===3?'<i></i>':`<img src="assets/loading-icons/${iconAssets[(i-Math.floor(i/4))%iconAssets.length]}.png" alt="" draggable="false">`;
+  fallingIcons.append(icon);
+ }
+ loading.prepend(fallingIcons);
  video.defaultPlaybackRate=.85;video.playbackRate=.85;
  let timer,frame,stopped=false,phase='intro',start;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -25,7 +36,7 @@
  looks.querySelector('.carousel').innerHTML=items.map(o=>card(o)).join('');
  function progress(n){fill.style.width=n+'%';bar.setAttribute('aria-valuenow',String(Math.round(n)));}
  function back(){introOwl.pause();stopped=true;clearTimeout(timer);cancelAnimationFrame(frame);video.pause();window.onBack?.();}
- function finish(){if(stopped||phase!=='loading')return;phase='complete';cancelAnimationFrame(frame);progress(100);label.textContent='加载完成';video.pause();timer=setTimeout(()=>{if(stopped)return;phase='results';loading.hidden=true;looks.hidden=false;results.setAttribute('aria-busy','false');page.dataset.phase='results';},600);}
+ function finish(){if(stopped||phase!=='loading')return;phase='complete';page.dataset.phase='complete';cancelAnimationFrame(frame);progress(100);label.textContent='加载完成';video.pause();timer=setTimeout(()=>{if(stopped)return;phase='results';loading.hidden=true;looks.hidden=false;results.setAttribute('aria-busy','false');page.dataset.phase='results';},600);}
  function tick(now){if(stopped||phase!=='loading')return;progress(Math.min(99,(now-start)/5170*100));frame=requestAnimationFrame(tick);}
  function begin(){if(stopped)return;introOwl.pause();phase='loading';page.dataset.phase=phase;home.hidden=true;conversation.hidden=true;page.hidden=false;scroll.classList.add('generation-scroll');header.innerHTML='<button class="back" aria-label="返回"><svg viewBox="0 0 24 24"><path d="m15 4-8 8 8 8"/></svg></button><h2 class="generation-title">AI 穿搭助手</h2>';header.querySelector('button').onclick=back;document.querySelector('.screen').classList.add('generating-outfits');scroll.scrollTop=0;start=performance.now();frame=requestAnimationFrame(tick);if(!reduced.matches)video.play().catch(()=>{});timer=setTimeout(finish,5170);}
  // Always show the entry screen for this new generation flow; stored chat history is preserved.
