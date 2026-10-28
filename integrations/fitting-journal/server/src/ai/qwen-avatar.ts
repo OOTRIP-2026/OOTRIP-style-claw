@@ -113,10 +113,13 @@ export async function generateAvatar(
 export async function generateReferenceImage(
   bytes: Buffer,
   settings: AvatarSettings,
-  options: { prompt: string; size: string; endpoint?: string },
+  options: { prompt: string; size: string; endpoint?: string; referenceImages?: Buffer[]; negativePrompt?: string },
   transport: typeof fetch = fetch,
 ): Promise<{ image: Buffer; elapsedMs: number; requestId: string | null }> {
   const mime = imageMime(bytes);
+  const references = options.referenceImages ?? [];
+  if (references.length > 2) throw new VisionError('INVALID_INPUT', '最多支持三张输入图片。');
+  const referenceContent = references.map(image => ({image: `data:${imageMime(image)};base64,${image.toString('base64')}`}));
   const started = Date.now();
   let response: Response;
   try {
@@ -136,6 +139,7 @@ export async function generateReferenceImage(
                 role: 'user',
                 content: [
                   { image: `data:${mime};base64,${bytes.toString('base64')}` },
+                  ...referenceContent,
                   {
                     text: options.prompt,
                   },
@@ -143,7 +147,8 @@ export async function generateReferenceImage(
               },
             ],
           },
-          parameters: { n: 1, size: options.size, prompt_extend: false, watermark: false },
+          parameters: { n: 1, size: options.size, prompt_extend: false, watermark: false,
+            ...(options.negativePrompt ? { negative_prompt: options.negativePrompt } : {}) },
         }),
       },
     );

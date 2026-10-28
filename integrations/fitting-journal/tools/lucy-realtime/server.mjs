@@ -5,7 +5,7 @@ import { dirname } from 'node:path';
 
 export const LUCY_MODEL = 'lucy-vton-3.6';
 export const EXPERIMENT_ORIGIN = 'http://127.0.0.1:3100';
-export const SESSION_SECONDS = 30;
+export const SESSION_SECONDS = 60;
 
 class LucyTokenError extends Error {
   constructor(code, message) {
@@ -190,7 +190,7 @@ export function createLucyExperiment({
     ) {
       return reply
         .code(400)
-        .send({ message: '请明确同意本次总连接最多30秒的视频与衣物图片处理。' });
+        .send({ message: '请明确同意本次总连接最多60秒（含等待画面，实际试穿最多30秒）的视频与衣物图片处理。' });
     }
     if (!apiKey?.trim()) {
       return reply.code(503).send({ message: '未配置 DECART_API_KEY，请保存.env后重启实验服务。' });

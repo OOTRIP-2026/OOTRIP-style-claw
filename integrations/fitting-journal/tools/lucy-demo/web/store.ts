@@ -10,7 +10,7 @@ export {
 } from '../../../miniprogram/wardrobe/realtime.js';
 export type Garment = RealtimeGarment;
 const integrated = window.parent !== window && new URLSearchParams(location.search).get('integrated') === '1';
-function hostWardrobe<T>(method: 'read' | 'save', items?: readonly Garment[], remove = false): Promise<T> {
+function hostWardrobe<T>(method: 'read' | 'save' | 'selection', items?: readonly Garment[], remove = false): Promise<T> {
   return new Promise((resolve, reject) => {
     const id = crypto.randomUUID();
     const timer = setTimeout(() => { window.removeEventListener('message', receive); reject(new Error('衣橱响应超时，请返回后重新打开。')); }, 15000);
@@ -78,7 +78,7 @@ export async function importGarment(
   name: string,
   category: string,
   preserveAlpha = false,
-): Promise<Garment> {
+): Promise<Garment & { originalImage?: string; backgroundProcessed?: boolean }> {
   const normalized = realtimeCategory(category);
   if (
     !normalized ||
@@ -102,11 +102,16 @@ export async function importGarment(
     if (!context) throw new Error('浏览器无法创建预览。');
     if (!preserveAlpha) { context.fillStyle = '#fff'; context.fillRect(0, 0, canvas.width, canvas.height); }
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const originalImage = canvas.toDataURL(preserveAlpha ? 'image/png' : 'image/jpeg', 0.9);
+    const processImage = (window.parent as Window & { OotripGarmentImage?: (source: string) => Promise<string> }).OotripGarmentImage;
+    const preparedImage = !preserveAlpha && integrated && processImage ? await processImage(originalImage) : originalImage;
     return {
       id: crypto.randomUUID(),
       name: name.replace(/\.[^.]+$/, '').slice(0, 100),
       category: normalized,
-      image: canvas.toDataURL(preserveAlpha ? 'image/png' : 'image/jpeg', 0.9),
+      image: preparedImage,
+      originalImage,
+      backgroundProcessed: preparedImage !== originalImage,
       purchased: true,
     };
   } finally {
@@ -154,3 +159,5 @@ export async function referenceImage(selected: readonly Garment[]): Promise<stri
   });
   return canvas.toDataURL('image/jpeg', 0.9);
 }
+
+export async function readCanvasSelection(): Promise<Garment[]> { return integrated ? hostWardrobe<Garment[]>('selection') : []; }

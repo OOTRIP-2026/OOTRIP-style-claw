@@ -7,8 +7,8 @@ export class NativeLucyTestBudget {
   readonly limit = 10;
   readonly batch = 'ui-10-v1';
   private readonly directory: string;
-  private readonly firstFrameSeconds: 10 | 15;
-  constructor(directory: string, firstFrameSeconds: 10 | 15 = 10) {
+  private readonly firstFrameSeconds: 10 | 15 | 30;
+  constructor(directory: string, firstFrameSeconds: 10 | 15 | 30 = 10) {
     this.directory = directory;
     this.firstFrameSeconds = firstFrameSeconds;
   }
@@ -30,7 +30,7 @@ export class NativeLucyTestBudget {
             batch: this.batch,
             attempt: index,
             reservedAt: new Date().toISOString(),
-            maxSeconds: 30,
+            maxSeconds: this.firstFrameSeconds === 30 ? 60 : 30,
             firstFrameSeconds: this.firstFrameSeconds,
           }),
           { flag: 'wx' },

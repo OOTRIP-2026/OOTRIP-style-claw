@@ -48,7 +48,7 @@ async function tokenRequest(app, overrides = {}) {
     method: 'POST',
     url: '/experiment/token',
     headers: { ...host, origin: EXPERIMENT_ORIGIN, 'x-lucy-experiment': nonce, ...overrides },
-    payload: { consent: true, seconds: 30 },
+    payload: { consent: true, seconds: 60 },
   });
 }
 
@@ -65,7 +65,7 @@ test('only one provider request across concurrent clicks and a new server instan
   assert.equal(calls, 1);
   const reservation = await readFile(gatePath, 'utf8');
   assert.equal(reservation.includes('key'), false);
-  assert.equal(JSON.parse(reservation).seconds, 30);
+  assert.equal(JSON.parse(reservation).seconds, 60);
 });
 
 test('provider failure remains reserved and never leaks provider errors', async (t) => {
@@ -96,7 +96,7 @@ test('foreign origins, DNS rebinding hosts, missing nonce and missing consent do
     method: 'POST',
     url: '/experiment/token',
     headers: { ...host, origin: EXPERIMENT_ORIGIN, 'x-lucy-experiment': nonce },
-    payload: { consent: false, seconds: 30 },
+    payload: { consent: false, seconds: 60 },
   });
   assert.equal(cancelled.statusCode, 400);
   assert.equal(calls, 0);
@@ -108,14 +108,14 @@ test('foreign origins, DNS rebinding hosts, missing nonce and missing consent do
   );
 });
 
-test('the only provider call requests a model, origin and thirty-second ceiling', async () => {
+test('the only provider call requests a model, origin and sixty-second ceiling', async () => {
   let calls = 0;
   const token = await mintLucyToken('test-secret', async (url, options) => {
     calls++;
     assert.equal(url, 'https://api.decart.ai/v1/client/tokens');
     assert.equal(options.redirect, 'error');
     const request = JSON.parse(options.body);
-    assert.equal(request.constraints.realtime.maxSessionDuration, 30);
+    assert.equal(request.constraints.realtime.maxSessionDuration, 60);
     assert.deepEqual(request.allowedModels, [LUCY_MODEL]);
     assert.deepEqual(request.allowedOrigins, [EXPERIMENT_ORIGIN]);
     assert.equal(request.expiresIn, 60);
@@ -134,9 +134,9 @@ test('the only provider call requests a model, origin and thirty-second ceiling'
   assert.equal('constraints' in token, false);
 });
 
-test('accept omitted optional echoes while retaining requested thirty-second constraint', async () => {
+test('accept omitted optional echoes while retaining requested sixty-second constraint', async () => {
   const result = await mintLucyToken('test-secret', async (_url, options) => {
-    assert.equal(JSON.parse(options.body).constraints.realtime.maxSessionDuration, 30);
+    assert.equal(JSON.parse(options.body).constraints.realtime.maxSessionDuration, 60);
     return {
       ok: true,
       json: async () => ({ apiKey: 'ek_fake', expiresAt: '2099-01-01T00:00:00Z' }),
@@ -193,3 +193,5 @@ test('phone shell switches screens without minting and keeps nonce inside applic
   );
   assert.equal(calls, 0);
 });
+
+

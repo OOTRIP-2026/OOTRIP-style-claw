@@ -1,5 +1,6 @@
 $ErrorActionPreference='Stop'
 Set-Location -LiteralPath $PSScriptRoot
+Write-Host ('Project: '+$PSScriptRoot)
 $tools='C:/Users/86136/AppData/Local/OOTRIP-tools/node-v24.16.0-win-x64'
 if(Test-Path -LiteralPath ($tools+'/node.exe')){$env:PATH=$tools+';'+$env:PATH}
 $npm=(Get-Command npm.cmd -ErrorAction Stop).Source

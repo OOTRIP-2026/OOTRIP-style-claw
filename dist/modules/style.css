@@ -1,0 +1,792 @@
+:root {
+  color-scheme: light;
+  --paper: #f5f2ea;
+  --ink: #41483c;
+  --muted: #969484;
+  --line: #e2dfd4;
+  --olive: #5b654d;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    14px 'Microsoft YaHei',
+    'PingFang SC',
+    sans-serif;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+  color: inherit;
+}
+button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #6e8061;
+  outline-offset: 4px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.topbar {
+  height: 100px;
+  max-width: 1540px;
+  margin: auto;
+  padding: 0 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font:
+    26px Georgia,
+    serif;
+  letter-spacing: 6px;
+}
+.brand span {
+  display: block;
+  font: 8px sans-serif;
+  letter-spacing: 2px;
+  margin-top: 7px;
+}
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  color: #8f9184;
+  font-size: 12px;
+}
+.topbar nav a[aria-current] {
+  color: var(--ink);
+  border-bottom: 1px solid;
+  padding: 10px 0;
+}
+.local-tag {
+  font-size: 9px;
+  letter-spacing: 2px;
+  border: 1px solid #d8dacd;
+  border-radius: 20px;
+  padding: 8px 13px;
+}
+.workspace {
+  max-width: 1440px;
+  margin: 28px auto 0;
+  padding: 0 3%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(360px, 1fr);
+  grid-template-rows: minmax(560px, 70vh) auto;
+  gap: 0;
+}
+.mirror {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(125deg, #d8dbce, #e7e3d5 55%, #c2c6b3);
+  isolation: isolate;
+}
+.mirror:before {
+  content: '';
+  position: absolute;
+  width: 28%;
+  height: 160%;
+  background: #fffffb65;
+  filter: blur(15px);
+  transform: rotate(28deg);
+  left: 20%;
+  top: -25%;
+  z-index: -1;
+}
+.mirror-copy {
+  position: absolute;
+  left: 7%;
+  top: 8%;
+  z-index: 2;
+  pointer-events: none;
+}
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.mirror-copy .eyebrow {
+  color: #737b69;
+}
+.mirror h1 {
+  font:
+    clamp(26px, 3vw, 46px)/1.2 Georgia,
+    'Songti SC',
+    serif;
+  font-weight: 400;
+  margin: 22px 0;
+}
+.mirror h1 em {
+  font-style: normal;
+  font-size: 0.68em;
+}
+.mirror-copy > p:last-of-type {
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 2px;
+  color: #727965;
+}
+.fine-line {
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: #969f88;
+  margin-top: 22px;
+}
+.empty-camera {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  text-align: center;
+  color: #7d876d;
+}
+.empty-camera > span {
+  font-size: 55px;
+  font-weight: 200;
+}
+.empty-camera p {
+  font-size: 13px;
+  letter-spacing: 3px;
+  margin-top: 22px;
+}
+.empty-camera small {
+  color: #929982;
+  font-size: 10px;
+}
+.mirror-top {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 1px;
+  z-index: 4;
+  pointer-events: none;
+}
+.mirror-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding: 40px 25px 22px;
+  background: linear-gradient(transparent, #f5f2eadd);
+  z-index: 4;
+}
+.mirror-bottom p {
+  font:
+    18px Georgia,
+    'Songti SC',
+    serif;
+  max-width: 280px;
+  margin: 9px 0 0;
+}
+.glass-button {
+  border: 1px solid #fff9;
+  background: #f6f3e9c9;
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 11px 17px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.mirror video,
+.mirror #output {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mirror #output iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #18271f;
+}
+.mirror video.inset-camera {
+  inset: auto 18px 96px auto;
+  width: 106px;
+  height: 132px;
+  z-index: 5;
+  border: 2px solid #f5f2ea;
+  box-shadow: 0 3px 12px #0003;
+  border-radius: 5px;
+}
+.wardrobe {
+  background: #fbf9f3;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.wardrobe-header {
+  padding: 20px 27px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+h2 {
+  font:
+    24px Georgia,
+    'Songti SC',
+    serif;
+  font-weight: 400;
+  margin: 6px 0;
+}
+.wardrobe-header > span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.wardrobe-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+.categories {
+  width: 78px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line);
+  padding-top: 15px;
+}
+.categories button {
+  display: block;
+  position: relative;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  width: 100%;
+  padding: 17px 0;
+  color: #989b8b;
+}
+.categories button.active {
+  color: #46513c;
+}
+.categories button.active:before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 17px;
+  width: 2px;
+  height: 16px;
+  background: #777b63;
+}
+.gallery-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.gallery-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+}
+.gallery-top strong {
+  font-size: 12px;
+  font-weight: 400;
+}
+.quiet {
+  border: 0;
+  background: none;
+  padding: 7px;
+  font-size: 11px;
+  color: #838972;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  overflow: auto;
+  padding: 0 18px 16px;
+  align-content: start;
+  min-height: 120px;
+  flex: 1;
+}
+.garment {
+  position: relative;
+  min-width: 0;
+}
+.garment-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 1px solid transparent;
+  background: #ebe7dc;
+  border-radius: 7px;
+  padding: 6px;
+}
+.garment-tile img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  display: block;
+}
+.garment-tile.selected {
+  border-color: #7a8367;
+  box-shadow: 0 0 0 1px #7a8367;
+}
+.garment-tile.selected:after {
+  content: '✓';
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 21px;
+  height: 21px;
+  line-height: 21px;
+  border-radius: 50%;
+  background: #7c816b;
+  color: white;
+}
+.garment-label {
+  font-size: 10px;
+  margin: 8px 0;
+  color: #8b8c7c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 24px;
+}
+.delete {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  border: 0;
+  background: none;
+  font-size: 15px;
+  color: #a49d8c;
+}
+.gallery-empty {
+  grid-column: 1/-1;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #999d8e;
+  font-size: 11px;
+  line-height: 2;
+  text-align: center;
+}
+.gallery-empty strong {
+  font-size: 30px;
+  font-weight: 200;
+  color: #a1aa94;
+}
+.gallery-note {
+  font-size: 9px;
+  line-height: 1.8;
+  color: #a7a697;
+  margin: 0;
+  padding: 12px 18px;
+  border-top: 1px solid #eeeade;
+}
+.selection {
+  border-top: 1px solid var(--line);
+  padding: 12px 22px 15px;
+  flex-shrink: 0;
+}
+.selection-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.selection h3 {
+  font-size: 11px;
+  font-weight: 400;
+}
+.selection h3 span {
+  font-size: 9px;
+  margin-left: 7px;
+  color: #a7ab94;
+}
+.selected {
+  display: flex;
+  gap: 10px;
+  overflow: auto;
+  min-height: 65px;
+  padding: 4px 0;
+}
+.selected > p {
+  font-size: 10px;
+  color: #b0ad9e;
+}
+.selected-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 50px;
+}
+.selected-item img {
+  width: 50px;
+  height: 56px;
+  object-fit: contain;
+  background: #eeeade;
+  border-radius: 4px;
+}
+.selected-item span {
+  display: block;
+  text-align: center;
+  font-size: 9px;
+  color: #959982;
+}
+.selected-item button {
+  position: absolute;
+  right: -3px;
+  top: -4px;
+  border: 0;
+  background: #6f775e;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  color: white;
+  font-size: 11px;
+  padding: 0;
+}
+.control-bar {
+  grid-column: 1/-1;
+  border: 1px solid var(--line);
+  background: #f9f7f0;
+  padding: 20px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.live-status {
+  display: flex;
+  align-items: start;
+  gap: 9px;
+  max-width: 52%;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c4bda4;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.status-dot.ready {
+  background: #7a946a;
+}
+.live-status p {
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 0;
+}
+.live-status small {
+  display: block;
+  font-size: 9px;
+  color: #9b9c8e;
+  margin-top: 5px;
+}
+.actions {
+  display: flex;
+  gap: 9px;
+}
+.primary,
+.outline {
+  border: 1px solid #d4d8c7;
+  border-radius: 24px;
+  padding: 12px 17px;
+  white-space: nowrap;
+  font-size: 11px;
+  background: transparent;
+}
+.primary {
+  background: #58654c;
+  color: #fff;
+  border-color: #58654c;
+}
+.consent {
+  font-size: 10px;
+  color: #8d9280;
+  line-height: 1.7;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  align-items: start;
+}
+.consent input {
+  accent-color: #58654c;
+  margin-top: 3px;
+}
+body > footer {
+  max-width: 1440px;
+  margin: 22px auto;
+  padding: 0 3%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #a8a89b;
+}
+dialog {
+  border: 1px solid var(--line);
+  background: #faf8f0;
+  color: var(--ink);
+  border-radius: 15px;
+  max-width: 580px;
+  width: 90%;
+  padding: 35px;
+}
+dialog::backdrop {
+  background: #202b24aa;
+  backdrop-filter: blur(5px);
+}
+dialog p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #7f8676;
+}
+dialog a {
+  font-size: 12px;
+  text-decoration: underline;
+}
+.dialog-close {
+  float: right;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (min-width: 1450px) {
+  .garment-tile img {
+    height: 175px;
+  }
+}
+@media (max-width: 900px) {
+  .topbar {
+    height: 76px;
+  }
+  .topbar nav {
+    gap: 14px;
+  }
+  .local-tag {
+    display: none;
+  }
+  .workspace {
+    grid-template-columns: minmax(0, 1.3fr) minmax(240px, 1fr);
+    padding: 0 2%;
+    grid-template-rows: minmax(530px, 65vh) auto;
+  }
+  .categories {
+    width: 52px;
+  }
+  .categories button {
+    font-size: 11px;
+    padding: 14px 0;
+  }
+  .categories button.active:before {
+    left: 4px;
+    top: 14px;
+  }
+  .wardrobe-header {
+    padding: 15px;
+  }
+  .gallery {
+    padding: 0 10px 10px;
+    gap: 8px;
+  }
+  .garment-tile img {
+    height: 105px;
+  }
+  .mirror-copy {
+    left: 7%;
+    top: 13%;
+  }
+  .mirror h1 {
+    font-size: 28px;
+  }
+  .mirror-copy > p:last-of-type {
+    font-size: 10px;
+  }
+  .actions {
+    gap: 5px;
+  }
+  .primary,
+  .outline {
+    padding: 11px;
+  }
+  .control-bar {
+    padding: 16px;
+  }
+  .live-status {
+    max-width: 100%;
+  }
+}
+@media (max-width: 560px) {
+  .brand {
+    font-size: 20px;
+  }
+  .brand span {
+    font-size: 6px;
+  }
+  .topbar nav {
+    gap: 8px;
+    font-size: 10px;
+  }
+  .topbar .quiet {
+    display: none;
+  }
+  .workspace {
+    margin-top: 14px;
+    grid-template-columns: minmax(0, 1.4fr) minmax(140px, 1fr);
+    grid-template-rows: minmax(500px, 68vh) auto;
+    padding: 0;
+  }
+  .wardrobe-header {
+    padding: 12px 9px;
+  }
+  .wardrobe-header h2 {
+    font-size: 17px;
+  }
+  .wardrobe-header > span {
+    display: none;
+  }
+  .wardrobe-header .eyebrow {
+    font-size: 7px;
+  }
+  .categories {
+    width: 41px;
+  }
+  .categories button {
+    font-size: 10px;
+    padding: 13px 0;
+  }
+  .gallery {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
+    gap: 7px;
+  }
+  .gallery-top {
+    padding: 5px 5px;
+    font-size: 10px;
+  }
+  .gallery-top strong {
+    display: none;
+  }
+  .garment-tile img {
+    height: 112px;
+  }
+  .gallery-note {
+    display: none;
+  }
+  .selection {
+    padding: 4px 8px 9px;
+  }
+  .selection-heading .quiet {
+    font-size: 9px;
+  }
+  .selected {
+    min-height: 40px;
+    gap: 5px;
+  }
+  .selected-item {
+    width: 35px;
+  }
+  .selected-item img {
+    width: 35px;
+    height: 40px;
+  }
+  .mirror h1 {
+    font-size: 21px;
+  }
+  .mirror h1 em {
+    font-size: 14px;
+  }
+  .mirror-copy .eyebrow {
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+  .mirror-copy > p:last-of-type {
+    font-size: 9px;
+  }
+  .mirror-top {
+    left: 10px;
+    right: 10px;
+    font-size: 7px;
+  }
+  .mirror-bottom {
+    padding: 30px 10px 14px;
+    display: block;
+  }
+  .mirror-bottom p {
+    font-size: 12px;
+  }
+  .glass-button {
+    font-size: 9px;
+    padding: 8px 10px;
+    margin-top: 10px;
+  }
+  .empty-camera {
+    top: 51%;
+    padding: 0 10px;
+  }
+  .empty-camera p {
+    font-size: 10px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+  }
+  .empty-camera small {
+    font-size: 8px;
+  }
+  .mirror video.inset-camera {
+    width: 55px;
+    height: 74px;
+    right: 10px;
+    bottom: 108px;
+  }
+  .control-bar {
+    padding: 14px;
+    gap: 12px;
+  }
+  .actions {
+    width: 100%;
+  }
+  .actions button {
+    flex: 1;
+    font-size: 10px;
+    padding: 12px 8px;
+  }
+  .consent {
+    font-size: 9px;
+  }
+  body > footer {
+    display: block;
+    font-size: 7px;
+    line-height: 2;
+    padding: 0 15px;
+  }
+  body > footer span {
+    display: block;
+  }
+}

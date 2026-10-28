@@ -47,8 +47,11 @@ let serviceStatus: { configured: boolean; message: string } | undefined;
 let artworkStatus: { configured: boolean; message: string } | undefined;
 function refreshService() {
   const ai = mode.value === 'ai-paper';
-  const status = ai ? artworkStatus : serviceStatus;
-  element('service').textContent = status?.message ?? '正在检查服务…';
+  const status = ai ? artworkStatus : undefined;
+  element('manual-panel').hidden = ai;
+  element('generate').textContent = ai ? '确认，生成AI剪贴手账' : '生成本机拼贴';
+  consent.closest<HTMLElement>('.consent')!.hidden = !ai;
+  if (!ai) void openManual();
   consent.disabled = !status?.configured;
   element('consent-label').textContent = ai
     ? '我同意将本次照片发送至阿里云百炼生成一张AI剪贴手账，并消耗图像模型额度。AI可能重绘细节。'
@@ -138,10 +141,15 @@ for (const [id, values] of [
   }
 }
 element('new-record').onclick = () => screen('editor');
-element('back').onclick = () => {
-  persistDraft();
-  screen('history');
-};
+function journalBack() {
+  if (busy) return;
+  if (!editor.hidden) { persistDraft(); screen('history'); }
+  else if (!result.hidden) element('result-back').click();
+  else if (window.parent !== window) window.parent.postMessage({type:'ootrip:journal-exit'},location.origin);
+}
+window.addEventListener('message', (event: MessageEvent) => {
+  if (event.source === window.parent && event.origin === location.origin && event.data?.type === 'ootrip:journal-back') journalBack();
+});
 element('result-back').onclick = () => {
   if (!saved && !window.confirm('这张预览尚未保存，确认返回？原照片和文字草稿仍保留。')) return;
   render();
@@ -175,7 +183,7 @@ async function choose(input: HTMLInputElement) {
     element<HTMLButtonElement>('generate').disabled = false;
   }
 }
-for (const id of ['photo', 'take-photo']) {
+for (const id of ['photo']) {
   const input = element<HTMLInputElement>(id);
   input.onchange = () => void choose(input);
 }
@@ -402,9 +410,8 @@ async function generate(localOnly = false) {
 }
 element<HTMLFormElement>('record-form').onsubmit = (event) => {
   event.preventDefault();
-  void generate();
+  void generate(mode.value !== 'ai-paper');
 };
-element('local-only').onclick = () => void generate(true);
 const cancel = () =>
   controller?.abort(new Error('已取消本地等待；已发送的识别可能仍完成，不自动重试。'));
 loading.addEventListener('cancel', cancel);
@@ -716,8 +723,8 @@ function addManual(piece: Piece) {
   persistDraft();
 }
 async function openManual() {
-  const panel = element<HTMLDetailsElement>('manual-panel');
-  panel.open = true;
+  const panel = element('manual-panel');
+  panel.hidden = false;
   const list = element('manual-wardrobe');
   list.replaceChildren();
   try {
@@ -751,19 +758,19 @@ async function openManual() {
   } catch (error) {
     manualError(error);
   }
-  panel.scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
 function manualError(error: unknown) {
   element('manual-message').textContent =
     error instanceof Error ? error.message : '单品处理失败，请重试。';
 }
-element('manual-panel').addEventListener('toggle', () => {
-  if (element<HTMLDetailsElement>('manual-panel').open) void openManual();
-});
 element('supplement').onclick = () => {
   if (busy || !current) return;
   element('edit-entry').click();
-  void openManual();
+  mode.value = 'standard';
+  consent.checked = false;
+  refreshService();
+  persistDraft();
+  element('manual-panel').scrollIntoView({ block: 'start', behavior: 'smooth' });
 };
 element<HTMLInputElement>('manual-upload').onchange = async () => {
   const input = element<HTMLInputElement>('manual-upload');
@@ -782,7 +789,7 @@ element<HTMLInputElement>('manual-upload').onchange = async () => {
         height: image.height,
       });
     }
-    element('manual-message').textContent = '已添加并选中，点击下方按钮生成本机拼贴。';
+    element('manual-message').textContent = '已添加并选中，点击“生成本机拼贴”即可制作。';
   } catch (error) {
     manualError(error);
   } finally {
@@ -790,4 +797,4 @@ element<HTMLInputElement>('manual-upload').onchange = async () => {
     input.value = '';
   }
 };
-element('manual-compose').onclick = () => void generate(true);
+

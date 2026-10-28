@@ -1,0 +1,124 @@
+/* Match the host's warm brown wardrobe without changing the host screens. */
+:root{--paper:#f4f1ea;--ink:#594b36;--muted:#9d907e;--line:#dfd6c8;--olive:#766047}
+body{color:var(--ink);background:var(--paper)}
+button,input,textarea,select{color:var(--ink)}
+.primary,.actions .primary{background:#766047;border-color:#766047;color:#fffaf1}
+.outline,.quiet{color:#766047}
+.hint,.eyebrow,.field small{color:#9d907e}
+.journal-app #journal-mode{color:#594b36;background:#fffdf8;border-color:#dfd6c8}
+.journal-app main{width:100%;max-width:none;padding:18px 16px 30px;margin:0;box-sizing:border-box}
+.journal-app h1{font-size:25px;line-height:1.45;margin:8px 0 18px;color:#594b36}
+.journal-app #editor>.quiet,.journal-app #history>.quiet{display:block;text-align:left;margin:0;padding-left:0}
+.journal-app .upload{position:relative;cursor:pointer;background:#ebe5da;border-color:#cfc2ae;border-radius:20px;color:#6b563d;min-height:290px}
+.journal-app .upload input[type=file]{position:absolute;width:1px;height:1px;padding:0;border:0;opacity:0;overflow:hidden;clip-path:inset(50%)}
+.journal-app .upload:focus-within{outline:2px solid #8c7456;outline-offset:3px}
+.journal-app .upload small{color:#a1927b}
+.journal-app #manual-panel{padding:14px;background:#ece5da;border-radius:16px;margin:12px 0}
+.journal-app [hidden]{display:none!important}
+.ootrip-integrated .journal-app #result-back{display:none}
+.fitting-app .workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;gap:12px;padding:14px;margin:0;box-sizing:border-box}
+.fitting-app .mirror{grid-column:1;grid-row:1;min-height:410px;height:min(57dvh,510px);border:1px solid #d9cebc;border-radius:23px;overflow:hidden;background:radial-gradient(ellipse at 45% 30%,#f5efe4,#e1d6c3)}
+.fitting-app .mirror-copy{left:24px;top:65px;right:24px;color:#5e4931}
+.fitting-app .mirror h1{font-size:31px;line-height:1.3;margin:14px 0}
+.fitting-app .mirror h1 em{font-size:20px;color:#806749}
+.fitting-app .mirror-copy .eyebrow{font-size:8px;color:#a18a6b}
+.fitting-app .mirror-copy>p:last-of-type{font-size:12px;color:#9b8568}
+.fitting-app .mirror-top{left:18px;right:18px;top:15px;color:#8b7353;font-size:9px}
+.fitting-app .mirror-bottom{left:20px;right:20px;bottom:17px;color:#71593b}
+.fitting-app .mirror-bottom p{font-size:12px}
+.fitting-app .empty-camera{color:#9d8769}
+.fitting-app .wardrobe-toggle{right:14px;top:39px;background:#faf6ed;color:#786144;border-color:#d9cebc;font-size:11px}
+.fitting-app .wardrobe{grid-column:1;grid-row:2;min-height:0;border:1px solid #dfd4c3;border-radius:20px;background:#eee7db;overflow:hidden}
+.fitting-app .wardrobe-body{display:block;padding:0}
+.fitting-app .categories{display:flex;width:100%;overflow-x:auto;border-bottom:1px solid #dfd4c3;padding:6px 8px;gap:2px;box-sizing:border-box}
+.fitting-app .categories button{flex:0 0 auto;width:auto;padding:9px 13px;font-size:12px;border-radius:20px;color:#a28c70}
+.fitting-app .categories button.active{background:#d7c9b2;color:#604b33}
+.fitting-app .categories button.active:before{display:none}
+.fitting-app .gallery-top{justify-content:space-between;padding:10px 14px 4px}
+.fitting-app .gallery-top strong{display:block;font-size:12px;font-weight:400}
+.fitting-app .gallery-top .quiet{font-size:12px;padding:4px}
+.fitting-app .gallery{display:flex;overflow-x:auto;padding:8px 12px 12px;gap:10px}
+.fitting-app .gallery>.garment{flex:0 0 85px;width:85px;min-width:85px}
+.fitting-app .garment-tile{width:100%;min-width:0;background:#e4dbcc;border-radius:14px}
+.fitting-app .garment-tile img{height:100px;object-fit:contain;background:#e4dbcc;border-radius:14px}
+.fitting-app .selection{border-color:#dfd4c3;padding:10px 14px}
+.fitting-app .selected>p{font-size:11px}
+.fitting-app .control-bar{grid-column:1;grid-row:3;background:#f4f1ea;border:0;padding:0 2px 16px;gap:12px}
+.fitting-app .live-status p{font-size:12px;color:#6b563d}
+.fitting-app .live-status small{font-size:10px;color:#a08e75}
+.fitting-app .actions{gap:7px}
+.fitting-app .actions button{font-size:12px;padding:11px 7px;border-radius:22px}
+.fitting-app .consent{font-size:10px;color:#a08e75;line-height:1.7}
+.fitting-app .workspace.wardrobe-collapsed{grid-template-columns:minmax(0,1fr)}
+.fitting-app .workspace.wardrobe-collapsed .wardrobe{display:none}
+.fitting-app .workspace.wardrobe-collapsed .control-bar{grid-row:2}
+/* Fitting room: full-height portrait stage, category rail and controls below. */
+.fitting-app .workspace{height:100dvh;padding:0;gap:0;grid-template-columns:minmax(0,1fr) 74px;grid-template-rows:minmax(0,1fr) auto}
+.fitting-app .mirror{height:100%;min-height:0;border:0;border-radius:0;grid-column:1;grid-row:1;background:linear-gradient(130deg,#e6e2d4,#eeeadf 65%,#d9d5c5)}
+.fitting-app .mirror-copy,.fitting-app .mirror-top,.fitting-app .mirror-bottom .eyebrow,.fitting-app .mirror-bottom p{display:none}
+.fitting-app .empty-camera p{font-size:14px;color:#a3947f}
+.fitting-app .empty-camera small{font-size:10px}
+.fitting-app .wardrobe{grid-column:2;grid-row:1;border:0;border-radius:0;background:#f8f5ed}
+.fitting-app .categories{flex-direction:column;width:100%;height:100%;padding:10px 0;border:0;gap:0;overflow-y:auto}
+.fitting-app .categories button{min-height:56px;width:100%;border-radius:0;padding:10px 0;font-size:13px;background:transparent}
+.fitting-app .categories button.active{background:transparent;color:#594b36;border-left:2px solid #9d907e}
+.fitting-app .gallery-panel,.fitting-app .selection{display:none}
+.fitting-app .wardrobe.show-items .categories{display:none}
+.fitting-app .wardrobe.show-items .gallery-panel{display:flex;height:100%}
+.fitting-app .gallery{flex-direction:column;overflow-y:auto;padding:6px;gap:8px}
+.fitting-app .gallery>.garment{flex:0 0 auto;width:100%;min-width:0}
+.fitting-app .garment-tile img{height:85px}
+.fitting-app .gallery-top{padding:4px;flex-wrap:wrap;gap:4px}
+.fitting-app .gallery-top .quiet{font-size:10px}
+.fitting-app .control-bar{grid-column:1/-1;grid-row:2;padding:10px 12px;gap:7px}
+.fitting-app .live-status small{font-size:9px}
+.fitting-app .mirror-bottom{left:10px;bottom:12px}
+.fitting-app footer{display:none}
+.photo-workspace .stage{background:linear-gradient(130deg,#e6e2d4,#eeeadf 65%,#d9d5c5)}
+.photo-workspace .primary{background:#a69a86}
+.photo-workspace{grid-template-columns:minmax(0,1fr) 64px}
+.photo-workspace.collapsed{grid-template-columns:minmax(0,1fr) 0}
+.photo-workspace .photo-controls #photo-selected{display:block;color:#8f7a60;font-size:11px;margin:0 0 6px}
+#photo-selection{display:flex;gap:8px;overflow-x:auto;min-height:42px;align-items:center;padding:0 0 8px;color:#a08e75;font-size:11px}
+#photo-selection button{flex:0 0 58px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;border:1px solid #d8cbb8;background:#eee7dc;border-radius:10px;color:#786249;font-size:10px}
+#photo-selection img{width:40px;height:44px;object-fit:contain}
+.fitting-app .workspace{grid-template-columns:minmax(0,1fr) 64px}
+.fitting-app .control-bar .selection{display:block;border:0;padding:0}
+.fitting-app .control-bar .selected{display:flex;overflow-x:auto;min-height:38px;max-height:80px}
+.fitting-app .control-bar .selected-item{flex:0 0 48px;width:48px}
+.fitting-app .control-bar .selected-item img{width:40px;height:44px;object-fit:contain}
+.fitting-app .control-bar .selection h3{font-size:11px}
+/* Let controls continue below the fold instead of shrinking either preview. */
+html:has(.photo-workspace),html:has(body.fitting-app){height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+body:has(>.photo-workspace),body.fitting-app{height:auto;min-height:100dvh;overflow:visible}
+.photo-workspace,.fitting-app .workspace{height:auto;min-height:100dvh;grid-template-rows:max(420px,calc(100dvh - 44px)) auto;align-content:start}
+.photo-workspace .photo-controls,.fitting-app .control-bar{max-height:none;overflow:visible;padding-bottom:20px}
+/* Expanded wardrobe keeps categories beside the existing garment thumbnails. */
+.fitting-app .workspace{grid-template-columns:minmax(0,1fr) clamp(128px,36vw,160px)}
+.fitting-app .workspace.wardrobe-collapsed{grid-template-columns:minmax(0,1fr) 0}
+.fitting-app .wardrobe-body{display:flex;height:100%;min-height:0;padding:0}
+.fitting-app .wardrobe .categories,.fitting-app .wardrobe.show-items .categories{display:flex;flex:0 0 46px;width:46px;overflow-x:hidden}
+.fitting-app .wardrobe .gallery-panel,.fitting-app .wardrobe.show-items .gallery-panel{display:flex;flex:1;min-width:0;min-height:0;height:100%;border-left:1px solid #e6dfd3}
+.fitting-app .gallery-top{flex-shrink:0;justify-content:center;padding:8px 3px}
+.fitting-app .gallery-top>button:not(#upload),.fitting-app .gallery-top strong{display:none}
+.fitting-app .gallery{min-height:0;overflow-x:hidden;overflow-y:auto}
+.fitting-app .garment-tile img{height:100px}
+.fitting-app .mirror-bottom{left:0;right:0;bottom:0;padding:12px;background:none;pointer-events:none}
+.fitting-app .mirror-bottom button{pointer-events:auto}
+.fitting-app .control-bar .selection{flex:0 0 100%;width:100%;min-width:0;box-sizing:border-box}
+.fitting-app .control-bar .selected{width:100%;max-height:none;min-height:92px;gap:12px;padding:8px 4px;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+.fitting-app .control-bar .selected-item{flex:0 0 64px;width:64px}
+.fitting-app .control-bar .selected-item img{width:64px;height:72px;border-radius:10px}
+.fitting-app .control-bar .selected-item span{font-size:10px}
+.fitting-app .selected,.fitting-app .gallery,.fitting-app .categories{scrollbar-width:none}
+.fitting-app .selected::-webkit-scrollbar,.fitting-app .gallery::-webkit-scrollbar,.fitting-app .categories::-webkit-scrollbar{display:none}
+
+.fitting-app .control-bar .selected,#photo-selection{min-width:0;max-width:100%;touch-action:pan-x pan-y;cursor:grab;user-select:none;overscroll-behavior-x:contain}
+.fitting-app .control-bar .selected:active,#photo-selection:active{cursor:grabbing}
+
+.photo-workspace .photo-controls #photo-selected{display:none}
+#photo-selection{padding-top:6px;gap:10px}
+#photo-selection button{flex-basis:70px;padding:6px}
+#photo-selection img{width:56px;height:66px}
+.fitting-app .control-bar .selected-item{flex-basis:70px;width:70px}
+.fitting-app .control-bar .selected-item img{width:70px;height:78px}

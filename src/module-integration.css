@@ -1,7 +1,19 @@
-.ootrip-module{position:absolute;inset:52px 0 99px;z-index:34;background:#f8f5ef;display:flex;flex-direction:column;overflow:hidden}
+.ootrip-module{position:absolute;inset:52px 0 0;z-index:40;background:#f8f5ef;display:flex;flex-direction:column;overflow:hidden;padding-bottom:30px}
+.ootrip-module:after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:138px;height:5px;border-radius:8px;background:#242126;pointer-events:none}
 .ootrip-module-header{height:43px;flex-shrink:0;display:flex;align-items:center;border-bottom:1px solid #e5d9c9;padding:0 14px;gap:12px;color:#594631;font-family:SimSun,serif}
 .ootrip-module-header button{border:0;background:transparent;padding:8px;color:inherit;font:inherit;cursor:pointer}
 .ootrip-module-header h2{font-size:17px;font-weight:400;margin:0;flex:1;text-align:center;padding-right:45px}
-.ootrip-module iframe{display:block;flex:1;width:100%;min-height:0;border:0;background:#f8f5ef}
+.ootrip-module iframe{display:block;flex:1 1 0;width:100%;height:0;min-height:0;border:0;background:#f8f5ef}
 .ootrip-module-note{padding:24px;font:14px/1.9 'Microsoft YaHei',sans-serif;color:#75624c;overflow:auto}
 .ootrip-module-note button{display:block;width:100%;padding:12px;margin-top:14px;border:1px solid #d7c9b7;border-radius:23px;background:#a99b89;color:#fff;text-align:center;font:inherit;cursor:pointer}
+.ootrip-module>.ootrip-module-header{position:relative;width:100%;max-width:none;margin:0;padding:0 12px;height:48px;min-height:48px;background:#f4f1ea;display:flex;justify-content:center}
+.ootrip-module-header>button{position:absolute;left:10px;top:5px;min-height:38px;padding:7px 10px;font-size:14px}
+.ootrip-module-header>h2{flex:none;padding:0;margin:0;font-size:18px;color:#594631}
+.ootrip-fitting-tabs{display:flex;flex-shrink:0;margin:6px 12px;padding:3px;background:#eae6dd;border-radius:24px;gap:3px}
+.ootrip-fitting-tabs button{flex:1;border:0;border-radius:22px;padding:10px 5px;background:transparent;color:#a39279;font:14px 'SimSun',serif;cursor:pointer}
+.ootrip-fitting-tabs button[aria-selected=true]{background:#fffdf8;color:#59442e;box-shadow:0 1px 4px #6353400a}
+
+
+.phone-frame:has(>#ootrip-module)>.home-bar{background:#f8f5ef}
+/* The inherited 100% height otherwise overrides this page's bottom inset. */
+.me-mode #trip-page{height:auto!important;min-height:0}

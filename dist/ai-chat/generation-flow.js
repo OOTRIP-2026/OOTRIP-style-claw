@@ -18,6 +18,8 @@
  introOwl.muted=true;introOwl.playsInline=true;introOwl.preload='auto';introOwl.defaultPlaybackRate=1.15;introOwl.playbackRate=1.15;
  introOwl.setAttribute('aria-label','owol 闭眼打盹、揉眼醒来并张开翅膀');
  if(!reduced.matches){heroImage.replaceWith(introOwl);introOwl.play().catch(()=>{introOwl.replaceWith(heroImage);});}
+ // This entry creates a fresh recommendation order; edits begin with the next chat request.
+ state.outfitOrder=[];state.colorfulIds=[];state.pendingColorRequest=false;state.noHeels=false;
  const items=currentOutfits();
  looks.querySelector('h2').textContent='为你推荐的'+chatTrip.days+'套出行穿搭';
  looks.querySelector('.carousel').innerHTML=items.map(o=>card(o)).join('');
@@ -32,6 +34,17 @@
  document.querySelector('.chat-demo-note')?.remove();
  // Slightly quicker wake-up: 2.1s gesture, 500ms softening, 800ms haze hold.
  timer=setTimeout(begin,3400);
+ let compactHeader=false;
+ function resultHeader(compact){if(compact===compactHeader)return;compactHeader=compact;header.innerHTML=compact?'<button class="back" aria-label="返回首页"><svg viewBox="0 0 24 24"><path d="m15 4-8 8 8 8"/></svg></button><img class="header-avatar" src="assets/owl.jpg" alt="owol"><div><div class="header-title">AI 助手 · 旅行造型师</div><div class="online">在线 · 已读取行程</div></div>':'<button class="back" aria-label="返回"><svg viewBox="0 0 24 24"><path d="m15 4-8 8 8 8"/></svg></button><h2 class="generation-title">AI 穿搭助手</h2>';header.querySelector('button').onclick=back}
+ function syncResultScroll(){if(phase!=='results'||page.hidden)return;const hero=page.querySelector('.generation-hero');resultHeader(hero.getBoundingClientRect().bottom<=scroll.getBoundingClientRect().top+12)}
+ scroll.addEventListener('scroll',syncResultScroll,{passive:true});
+ function sizeResults(){page.style.setProperty('--generation-viewport-height',scroll.clientHeight+'px')}
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(sizeResults).observe(scroll);sizeResults();
+ document.addEventListener('ootrip:selection-question',()=>{
+  if(phase!=='results'||page.hidden)return;
+  page.classList.add('generation-discussion');
+  requestAnimationFrame(()=>{const top=looks.getBoundingClientRect().top-scroll.getBoundingClientRect().top+scroll.scrollTop;scroll.scrollTo({top:Math.max(0,top-8),behavior:reduced.matches?'auto':'smooth'})});
+ });
  const form=document.querySelector('#composer');form.addEventListener('submit',event=>{
   if(phase==='conversation')return;
   event.preventDefault();event.stopImmediatePropagation();

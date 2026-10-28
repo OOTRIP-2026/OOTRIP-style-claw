@@ -37,3 +37,25 @@
   flex-shrink:0;
 }
 .generation-intro .home-city,.generation-intro .home-tags span,.generation-intro .home-activity{animation-delay:2.1s}.home video.hero-owl{object-fit:cover;display:block}
+
+/* Free room for the assistant while keeping recommendations beneath the fixed header. */
+.generation-hero{max-height:240px;overflow:hidden;opacity:1;transition:max-height 360ms ease,padding 360ms ease,opacity 240ms ease}
+.generation-trip{max-height:120px;overflow:hidden;opacity:1;transition:max-height 360ms ease,padding 360ms ease,opacity 240ms ease}
+.generation-grip{max-height:4px;transition:max-height 360ms ease,margin 360ms ease,opacity 240ms ease}
+.generation-sheet{transition:border-radius 360ms ease,padding 360ms ease}
+.generation-compact .generation-hero,.generation-compact .generation-trip{max-height:0;opacity:0;padding-top:0;padding-bottom:0;pointer-events:none}
+.generation-compact .generation-grip{max-height:0;margin-top:0;margin-bottom:0;opacity:0}
+.generation-compact .generation-sheet{border-radius:0;border:0;padding-top:0}
+.generation-compact .generation-results{border-top:0}
+.assistant-fade-in,.selection-question{animation:assistant-fade-in 360ms ease both}
+@keyframes assistant-fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.generation-hero,.generation-trip,.generation-grip,.generation-sheet{transition:none}.assistant-fade-in,.selection-question{animation:none}}
+
+/* One vertical scroller retains the hero and trip when browsing back to the top. */
+.generation-scroll{display:block;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain}
+.generation-page{display:block;height:auto;min-height:100%}
+.generation-page[data-phase=results] .generation-sheet{min-height:calc(var(--generation-viewport-height,600px) + 120px)}
+.generation-sheet{display:block}
+.generation-results{display:block}
+.generation-looks{overflow:visible;padding-bottom:24px}
+.generation-hero,.generation-trip{max-height:none;opacity:1}

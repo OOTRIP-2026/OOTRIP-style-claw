@@ -1,5 +1,6 @@
-export const TOTAL_CONNECTION_MS = 30_000;
-export const FIRST_FRAME_DISPLAY_MS = 15_000;
+export const TOTAL_CONNECTION_MS = 60_000;
+export const FIRST_FRAME_DISPLAY_MS = 30_000;
+export const CONNECTION_WAIT_MS = 30_000;
 export const TRY_ON_PROMPT =
   'Replace only the clothing with the garments shown in the reference image. ' +
   'Use the reference for garment colors, fabric and patterns only. ' +

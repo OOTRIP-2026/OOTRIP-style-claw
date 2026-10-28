@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="lucy-experiment" content="" />
+    <title>OOTRIP · 穿衣手账</title>
+    <link rel="stylesheet" href="journal.css" />
+    <link rel="stylesheet" href="mobile.css" />
+  <script>if(new URLSearchParams(location.search).get('integrated')==='1')document.documentElement.classList.add('ootrip-integrated')</script><style>html.ootrip-integrated body{padding-bottom:18px}.ootrip-integrated body>header{display:none}.ootrip-integrated .workspace{margin-top:0}.ootrip-integrated main{padding-top:10px}</style></head>
+  <body class="journal-app">
+    <header>
+      <a href="/">OOTRIP</a>
+      <span class="mobile-title">穿衣手账</span>
+      <nav>
+        <a href="/" target="_top"><span>♧</span>实时试衣</a
+        ><a href="/journal" target="_top" aria-current="page"><span>▤</span>穿衣手账</a>
+      </nav>
+    </header>
+    <main>
+      <section id="history">
+        <p class="eyebrow">THE LITTLE THINGS, WORTH KEEPING</p>
+        <h1>穿衣手账<span>Days in your style.</span></h1>
+        <button id="new-record" class="primary">＋ 记录今天穿搭</button>
+        <p class="hint">把天气、心情和喜欢的穿搭，一起收藏。记录只保存在当前浏览器。</p>
+        <p id="history-status" role="status"></p>
+        <div id="records"></div>
+      </section>
+      <section id="editor" hidden>
+        <button id="back" class="quiet">← 返回手账</button>
+        <p class="eyebrow">A PAGE OF YOUR DAY</p>
+        <h1>记录此刻的自己</h1>
+        <form id="record-form">
+          <p class="hint">原照片和草稿仅保存在当前浏览器。天气与心情选填，再点一次可取消。</p>
+          <button id="remove-photo" type="button" class="quiet">移除照片</button>
+          <button id="rotate-photo" type="button" class="quiet">旋转照片</button>
+          <div class="form-grid">
+            <label class="upload"
+              ><img id="photo-preview" alt="本次穿搭照片" hidden /><span>＋ 上传穿搭照片</span
+              ><small>选择相册照片</small
+              ><input id="photo" type="file" accept="image/png,image/jpeg,image/webp" required
+            /></label>
+            <div>
+              <label class="field"
+                >也可以现场拍照<input
+                  id="take-photo"
+                  type="file"
+                  accept="image/*"
+                  capture="environment" /></label
+              ><label class="field">记录日期<input id="record-time" type="date" required /></label>
+              <fieldset>
+                <legend>今天的天气</legend>
+                <div id="weather" class="emoji-options"></div>
+              </fieldset>
+              <fieldset>
+                <legend>此刻的心情</legend>
+                <div id="mood" class="emoji-options"></div>
+              </fieldset>
+              <label class="field"
+                >留一句话（选填）<textarea
+                  id="note"
+                  rows="4"
+                  placeholder="记录今天真实的感受，最多300字"
+                ></textarea
+                ><small id="note-count">0/300字</small></label
+              >
+            </div>
+          </div>
+          <label class="field"
+            >手账制作方式<select id="journal-mode">
+              <option value="ai-paper">AI剪贴手账 · 人物与单品贴纸</option>
+              <option value="standard">本机纸艺排版 · 可选衣物识别</option>
+            </select></label
+          >
+          <p class="hint">
+            AI剪贴按原照片创作人物与衣物贴纸，不是精确像素抠图，可能重绘细节。日期、心情和原文仍由本机保留。
+          </p>
+          <details id="manual-panel">
+            <summary>效果不满意？补充单品制作本机拼贴（可选）</summary>
+            <p class="hint">
+              从已有衣橱选择，或上传单件衣服照片，最多4件。仅用于本篇手账，不自动加入衣橱。不调用AI、不自动抠图；透明底图片效果更好。
+            </p>
+            <label class="field"
+              >上传单品<input
+                id="manual-upload"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                multiple
+            /></label>
+            <div id="manual-wardrobe" class="manual-grid"></div>
+            <p>本篇已选单品</p>
+            <div id="manual-selected" class="manual-grid"></div>
+            <button id="manual-compose" type="button">使用这些单品生成本机拼贴</button>
+            <p id="manual-message" role="status"></p>
+          </details>
+          <p id="service" class="hint" role="status">正在检查图像服务…</p>
+          <label class="consent"
+            ><input id="recognize" type="checkbox" /><span id="consent-label"
+              >我同意将本次照片发送至阿里云百炼生成一张AI剪贴手账，并消耗图像模型额度。</span
+            ></label
+          ><button class="primary" id="generate" type="submit">确认，生成我的手账</button>
+          <button id="local-only" type="button" class="quiet">不使用AI，生成本机手账</button>
+          <p id="error" role="alert"></p>
+        </form>
+      </section>
+      <section id="result" hidden>
+        <button id="result-back" class="quiet">← 返回穿衣手账</button>
+        <p class="eyebrow">A LITTLE MEMORY TO KEEP</p>
+        <h1>把今天，贴进日常</h1>
+        <img id="scrapbook" alt="生成的穿搭手账拼贴" />
+        <p id="result-note" class="hint"></p>
+        <p id="full-note"></p>
+        <button id="save-entry" class="primary">确认保存到手账</button>
+        <div class="result-actions">
+          <button id="regenerate">换一种排版</button><button id="edit-entry">编辑记录</button
+          ><button id="share">分享</button>
+        </div>
+        <button id="supplement" class="quiet">补充单品 / 手动调整</button>
+        <button id="new-artwork" class="quiet" hidden>重新生成AI画面（需再次勾选同意）</button>
+        <button id="download" class="primary">↓ 保存手账图片</button>
+      </section>
+    </main>
+    <dialog id="loading">
+      <div class="mascot" aria-hidden="true"><span>✦</span><i>•ᴗ•</i><b>▱</b></div>
+      <h2>正在收集今天的小美好</h2>
+      <p id="loading-phase">准备照片与纸张…</p>
+      <p class="hint">稍等一下，你的手账正在成形</p>
+      <button id="cancel-generation" class="quiet">取消等待</button>
+    </dialog>
+    <script type="module" src="journal.js"></script>
+  </body>
+</html>

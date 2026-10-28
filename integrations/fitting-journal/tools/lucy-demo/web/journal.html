@@ -6,7 +6,7 @@
     <meta name="lucy-experiment" content="__NONCE__" />
     <title>OOTRIP · 穿衣手账</title>
     <link rel="stylesheet" href="/journal.css" />
-    <link rel="stylesheet" href="/mobile.css" />
+    <link rel="stylesheet" href="/mobile.css" /><link rel="stylesheet" href="/module-theme.css" />
   <script>if(new URLSearchParams(location.search).get('integrated')==='1')document.documentElement.classList.add('ootrip-integrated')</script><style>html.ootrip-integrated body{padding-bottom:18px}.ootrip-integrated body>header{display:none}.ootrip-integrated .workspace{margin-top:0}.ootrip-integrated main{padding-top:10px}</style></head>
   <body class="journal-app">
     <header>
@@ -27,11 +27,8 @@
         <div id="records"></div>
       </section>
       <section id="editor" hidden>
-        <button id="back" class="quiet">← 返回手账</button>
-        <p class="eyebrow">A PAGE OF YOUR DAY</p>
         <h1>记录此刻的自己</h1>
         <form id="record-form">
-          <p class="hint">原照片和草稿仅保存在当前浏览器。天气与心情选填，再点一次可取消。</p>
           <button id="remove-photo" type="button" class="quiet">移除照片</button>
           <button id="rotate-photo" type="button" class="quiet">旋转照片</button>
           <div class="form-grid">
@@ -41,13 +38,7 @@
               ><input id="photo" type="file" accept="image/png,image/jpeg,image/webp" required
             /></label>
             <div>
-              <label class="field"
-                >也可以现场拍照<input
-                  id="take-photo"
-                  type="file"
-                  accept="image/*"
-                  capture="environment" /></label
-              ><label class="field">记录日期<input id="record-time" type="date" required /></label>
+              <label class="field">记录日期<input id="record-time" type="date" required /></label>
               <fieldset>
                 <legend>今天的天气</legend>
                 <div id="weather" class="emoji-options"></div>
@@ -69,14 +60,10 @@
           <label class="field"
             >手账制作方式<select id="journal-mode">
               <option value="ai-paper">AI剪贴手账 · 人物与单品贴纸</option>
-              <option value="standard">本机纸艺排版 · 可选衣物识别</option>
+              <option value="standard">本机拼贴 · 选择衣橱或上传单品</option>
             </select></label
           >
-          <p class="hint">
-            AI剪贴按原照片创作人物与衣物贴纸，不是精确像素抠图，可能重绘细节。日期、心情和原文仍由本机保留。
-          </p>
-          <details id="manual-panel">
-            <summary>效果不满意？补充单品制作本机拼贴（可选）</summary>
+          <section id="manual-panel" hidden aria-label="本机拼贴单品选择">
             <p class="hint">
               从已有衣橱选择，或上传单件衣服照片，最多4件。仅用于本篇手账，不自动加入衣橱。不调用AI、不自动抠图；透明底图片效果更好。
             </p>
@@ -90,16 +77,13 @@
             <div id="manual-wardrobe" class="manual-grid"></div>
             <p>本篇已选单品</p>
             <div id="manual-selected" class="manual-grid"></div>
-            <button id="manual-compose" type="button">使用这些单品生成本机拼贴</button>
             <p id="manual-message" role="status"></p>
-          </details>
-          <p id="service" class="hint" role="status">正在检查图像服务…</p>
+          </section>
           <label class="consent"
             ><input id="recognize" type="checkbox" /><span id="consent-label"
               >我同意将本次照片发送至阿里云百炼生成一张AI剪贴手账，并消耗图像模型额度。</span
             ></label
           ><button class="primary" id="generate" type="submit">确认，生成我的手账</button>
-          <button id="local-only" type="button" class="quiet">不使用AI，生成本机手账</button>
           <p id="error" role="alert"></p>
         </form>
       </section>

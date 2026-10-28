@@ -5,12 +5,12 @@ const source=readFileSync(new URL('../../../../src/destinations.js',import.meta.
 function app(){
  const storage=new Map<string,string>(),elements=new Map<string,any>();let nextStep=0,tab='';
  class Node {
-  id='';className='';classList={add(){}};style:any={};children:any[]=[];parts=new Map<string,any>();textContent='';isConnected=true;
+  dataset:any={};id='';className='';classList={add(){}};style:any={};children:any[]=[];parts=new Map<string,any>();textContent='';isConnected=true;
   set innerHTML(s:string){if(s.includes('destination-backdrop'))for(const name of ['.destination-backdrop','.destination-cards','.destination-grip','.destination-sheet-message'])this.parts.set(name,new Node())}
-  get innerHTML(){return ''}querySelector(s:string){return this.parts.get(s)}setAttribute(k:string,v:string){this[k]=v}focus(){}removeAttribute(k:string){if(k==='id')elements.delete(this.id);this[k]=''}remove(){elements.delete(this.id)}append(...nodes:any[]){this.children.push(...nodes);for(const node of nodes)if(node.id)elements.set(node.id,node)}
+  replaceChildren(...nodes:any[]){this.children=[];this.append(...nodes)}get innerHTML(){return ''}querySelector(s:string){return this.parts.get(s)}setAttribute(k:string,v:string){this[k]=v}focus(){}removeAttribute(k:string){if(k==='id')elements.delete(this.id);this[k]=''}remove(){elements.delete(this.id)}append(...nodes:any[]){this.children.push(...nodes);for(const node of nodes)if(node.id)elements.set(node.id,node)}
  }
  const phone=new Node();
- const c=createContext({Map,Set,Date,Number,JSON,Array,Object,setTimeout:()=>1,localStorage:{getItem:(k:string)=>storage.get(k)||null,setItem:(k:string,v:string)=>storage.set(k,v)},document:{activeElement:new Node(),createElement:()=>new Node(),getElementById:(id:string)=>elements.get(id),querySelector:()=>phone,addEventListener(){},body:{classList:{remove(){}}}},destination:'广州',departure:'2026-10-28',returnDate:'2026-10-30',selectedAge:'28—32',caught:new Set(['极简']),selected:new Set(['极简']),tripScene:'商务',customTripScene:'',tripScenes:['海边','城市徒步','爬山','商务','自定义'],dailyOutfitImages:new Map([[0,'data:image/png;base64,AAAA']]),savedOutfits:[{url:'data:image/png;base64,AAAA'}],activeTripDay:0,uploadDay:0,dateTarget:'departure',viewMonth:new Date(),beijingToday:()=> '2026-10-27',enableCarouselDrag(){},showTrip:(step:number)=>nextStep=step,showWardrobe:(t:string)=>tab=t});
+ const c=createContext({URLSearchParams,fetch:async()=>({ok:false}),Map,Set,Date,Number,JSON,Array,Object,setTimeout:()=>1,localStorage:{getItem:(k:string)=>storage.get(k)||null,setItem:(k:string,v:string)=>storage.set(k,v)},document:{activeElement:new Node(),createElement:()=>new Node(),getElementById:(id:string)=>elements.get(id),querySelector:()=>phone,addEventListener(){},body:{classList:{remove(){}}}},destination:'广州',departure:'2026-10-28',returnDate:'2026-10-30',selectedAge:'28—32',caught:new Set(['极简']),selected:new Set(['极简']),tripScene:'商务',customTripScene:'',tripScenes:['海边','城市徒步','爬山','商务','自定义'],dailyOutfitImages:new Map([[0,'data:image/png;base64,AAAA']]),savedOutfits:[{url:'data:image/png;base64,AAAA'}],activeTripDay:0,uploadDay:0,dateTarget:'departure',viewMonth:new Date(),beijingToday:()=> '2026-10-27',enableCarouselDrag(){},showTrip:(step:number)=>nextStep=step,showWardrobe:(t:string)=>tab=t});
  c.window=c;c.getTripData=()=>({destination:c.destination,departure:c.departure,returnDate:c.returnDate,age:c.selectedAge,styles:[...c.caught],scene:c.tripScene,sceneChoice:c.tripScene});runInContext(source,c);
  return{c,storage,elements,nextStep:()=>nextStep,tab:()=>tab};
 }
@@ -33,11 +33,11 @@ it('add starts the destination question without deleting existing trips',()=>{
 
 it('maps city names and aliases to their own landmarks and leaves unknown cities neutral',()=>{
  const a=app(),cover=a.c.OotripDestinations.coverFor;
- expect(cover('杭州').image).toBe('assets/destinations/hangzhou.webp');
- expect(cover('杭州市').image).toBe('assets/destinations/hangzhou.webp');
- expect(cover('Hangzhou').image).toBe('assets/destinations/hangzhou.webp');
- expect(cover('广州').image).toBe('assets/destinations/guangzhou.webp');
- expect(cover('广州市').image).toBe('assets/destinations/guangzhou.webp');
- expect(cover('巴黎').label).toContain('巴黎');
+ expect(cover('杭州').image).toBe('assets/destinations/hangzhou-abstract-fixed.png');
+ expect(cover('杭州市').image).toBe('assets/destinations/hangzhou-abstract-fixed.png');
+ expect(cover('Hangzhou').image).toBe('assets/destinations/hangzhou-abstract-fixed.png');
+ expect(cover('广州').image).toBe('assets/destinations/guangzhou-abstract-fixed.png');
+ expect(cover('广州市').image).toBe('assets/destinations/guangzhou-abstract-fixed.png');
+ expect(cover('巴黎')).toBeNull();
  expect(cover('未匹配的城市')).toBeNull();
 });

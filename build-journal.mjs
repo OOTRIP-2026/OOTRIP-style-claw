@@ -1,0 +1,13 @@
+import { createRequire } from 'node:module';
+import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+const require = createRequire(new URL('./integrations/fitting-journal/tools/lucy-realtime/package.json', import.meta.url));
+const { build } = require('esbuild');
+const web = new URL('./integrations/fitting-journal/tools/lucy-demo/web/', import.meta.url);
+const output = new URL('./src/journal/', import.meta.url);
+mkdirSync(output, { recursive: true });
+await build({ entryPoints: [fileURLToPath(new URL('journal.ts', web))], outfile: fileURLToPath(new URL('journal.js', output)), bundle: true, platform: 'browser', format: 'esm', target: ['chrome110', 'safari17'] });
+const html = readFileSync(new URL('journal.html', web), 'utf8').replace('content="__NONCE__"', 'content=""').replace('href="/journal.css"', 'href="journal.css"').replace('href="/mobile.css"', 'href="mobile.css"').replace('src="/journal.js"', 'src="journal.js"');
+writeFileSync(new URL('index.html', output), html);
+for (const file of ['journal.css', 'mobile.css']) copyFileSync(new URL(file, web), new URL(file, output));
+console.log('Built static journal → src/journal');

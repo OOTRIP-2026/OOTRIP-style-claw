@@ -1,3 +1,4 @@
+import { TOTAL_CONNECTION_MS } from './session-policy.js';
 import { createDecartClient, models } from '@decartai/sdk';
 import {
   portraitCrop,
@@ -74,7 +75,7 @@ const send = (type: string, message?: string) => {
         method: 'POST',
         signal: AbortSignal.timeout(10_000),
         headers: { 'Content-Type': 'application/json', 'x-lucy-experiment': input.nonce },
-        body: JSON.stringify({ consent: true, seconds: 30 }),
+        body: JSON.stringify({ consent: true, seconds: TOTAL_CONNECTION_MS / 1000 }),
       });
       const body = (await response.json()) as { apiKey?: string; message?: string };
       if (!response.ok || typeof body.apiKey !== 'string') {

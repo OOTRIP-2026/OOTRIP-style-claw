@@ -17,3 +17,32 @@
 .outfit-editor.has-outfit .outfit-picker h3 button span{transform:rotate(180deg)}
 .outfit-editor.has-outfit .outfit-filters,.outfit-editor.has-outfit .outfit-clothes,.outfit-editor.has-outfit .outfit-picker-footer{display:none}
 @media(max-width:360px){.outfit-editor.has-outfit .outfit-workspace{height:calc(100% - 153px)}}
+
+.canvas-actions{position:absolute;right:14px;bottom:14px;z-index:20}.canvas-actions button{border:1px solid #d7c9b7;border-radius:22px;background:#f8f5ee;color:#745d46;padding:10px 18px;font:inherit;cursor:pointer}
+
+.saved-outfit-header{position:sticky;top:-15px;z-index:3;background:#f8f3ed;padding:15px 0 8px;margin-top:-15px}
+.saved-outfit-header .sheet-grip{margin-bottom:38px}
+.saved-outfit-header h2{margin:0 44px 12px}
+.saved-outfit-trash{position:absolute;right:2px;top:17px;width:44px;height:48px;display:grid;place-items:center;color:#947c5d;border-radius:14px;transition:background 180ms ease,transform 180ms ease}
+.saved-outfit-trash svg{width:30px;height:34px;overflow:visible;fill:currentColor}
+.saved-outfit-trash .trash-lines{fill:none;stroke:#f8f3ed;stroke-width:2.5;stroke-linecap:round}
+.saved-outfit-trash .trash-lid{transform-origin:30px 14px;transition:transform 180ms ease}
+.saved-outfit-trash.is-open{background:#e9dfd0;transform:scale(1.12)}
+.saved-outfit-trash.is-open .trash-lid{transform:translateY(-5px) rotate(24deg)}
+.saved-outfit-list .saved-outfit-card{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.saved-outfit-card img{pointer-events:none}
+.saved-outfit-card.is-drag-source{opacity:.25}
+.saved-outfit-drag-ghost{position:fixed;z-index:9999;pointer-events:none;opacity:.85;border:1px solid #b6a189;border-radius:10px;background:#f8f3ed;padding:7px;transform:scale(.85) rotate(-3deg);box-shadow:0 12px 28px #45332235;overflow:hidden}
+.saved-outfit-drag-ghost img{display:block;width:100%;height:calc(100% - 28px);object-fit:contain}
+.saved-outfit-drag-ghost span{display:block;text-align:center;font-size:12px;color:#715c44}
+.saved-outfit-dragging .saved-outfit-trash{z-index:5}
+.saved-delete-status{display:flex;align-items:center;justify-content:center;gap:12px;font-size:12px;color:#8b765f;min-height:0}
+.saved-delete-status button{border:0;background:none;color:#7d5f3f;text-decoration:underline;padding:2px 5px}
+@media(prefers-reduced-motion:reduce){.saved-outfit-trash,.saved-outfit-trash .trash-lid{transition:none}}
+
+.outfit-filters{min-width:0;max-width:100%;overscroll-behavior-x:contain;touch-action:pan-x;cursor:grab;user-select:none;-webkit-user-select:none}
+.outfit-filters button{flex:0 0 auto;touch-action:pan-x}
+.outfit-filters.is-sliding,.outfit-filters.is-sliding button{cursor:grabbing}
+.outfit-filters:focus-visible{outline:1px solid #a38b73;outline-offset:-2px}
+.outfit-shoe-frame{position:relative;width:100%;aspect-ratio:1;overflow:hidden;border-radius:9px;background:#eee6db}
+.outfit-clothing .outfit-shoe-frame img{position:absolute;left:0;top:0;width:100%;height:100%;aspect-ratio:auto;object-fit:contain;border-radius:0;background:transparent;max-width:none}

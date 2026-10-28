@@ -1,3 +1,4 @@
+import { horizontalScroll } from './horizontal-scroll.js';
 import {
   REALTIME_CATEGORIES,
   readWardrobe,
@@ -8,7 +9,7 @@ import {
   type Garment,
 } from './store.js';
 import { portraitRegion } from './portrait.js';
-import { TOTAL_CONNECTION_MS, TRY_ON_PROMPT, firstFrameDeadline } from './session-policy.js';
+import { TOTAL_CONNECTION_MS, CONNECTION_WAIT_MS, TRY_ON_PROMPT, firstFrameDeadline } from './session-policy.js';
 export {};
 type SessionWindow = Window & {
   runLucy?: (input: { stream: MediaStream; image: string; prompt: string; nonce: string }) => void;
@@ -146,7 +147,8 @@ function render() {
           render();
         });
     };
-    wrapper.append(tile, label, remove);
+    wrapper.append(tile, label);
+    if (!item.id.startsWith('saved-outfit-')) wrapper.append(remove);
     gallery.append(wrapper);
   }
   if (!gallery.children.length) {
@@ -197,7 +199,9 @@ async function configuration() {
     available = data.configured && data.available;
     quota.textContent = !data.configured
       ? '尚未配置 Decart 密钥，本机摄像头与选衣仍可演示。'
-      : data.testBudget
+      : data.testBudget?.remaining === 0
+        ? `实时试衣测试次数已用完（${data.testBudget.limit}/${data.testBudget.limit}），需配置新的可用额度后才能继续；本机相机仍可使用。`
+        : data.testBudget
         ? `现有测试批次剩余 ${data.testBudget.remaining} / ${data.testBudget.limit} 次 · 打开相机不消耗额度`
         : '服务已连接';
     element('status-dot').classList.toggle('ready', available);
@@ -336,7 +340,7 @@ start.onclick = () => {
     : !stream
       ? '请先开启摄像头预览。'
       : !available
-        ? '真实试穿尚不可用，请查看剩余次数与配置提示。'
+        ? quota.textContent || '实时试衣服务暂不可用，请检查服务连接。'
         : !consent.checked
           ? '请先勾选本次处理与额度消耗同意。'
           : '';
@@ -395,7 +399,7 @@ window.addEventListener('message', (event: MessageEvent) => {
   else if (data.type === 'dial' && !deadline) {
     deadline = performance.now() + TOTAL_CONNECTION_MS;
     window.clearTimeout(timeout);
-    timeout = window.setTimeout(deadlineReached, TOTAL_CONNECTION_MS);
+    timeout = window.setTimeout(() => finish('等待试穿画面超时，已结束连接；未自动重试。'), CONNECTION_WAIT_MS);
     interval = window.setInterval(() => {
       element('countdown').textContent =
         `${Math.max(0, Math.ceil((deadline - performance.now()) / 1000))}s REMAINING`;
@@ -472,3 +476,10 @@ render();
 void configuration();
 
 window.addEventListener('message', (event: MessageEvent) => { if (event.source === window.parent && event.origin === location.origin && event.data?.type === 'ootrip:module-close') finish('已返回衣橱，摄像头已关闭。', false); });
+
+element('categories').addEventListener('click',()=>document.querySelector('.wardrobe')?.classList.add('show-items'));
+const categoryBack=document.createElement('button');categoryBack.className='quiet';categoryBack.textContent='‹ 分类';categoryBack.onclick=()=>document.querySelector('.wardrobe')?.classList.remove('show-items');document.querySelector('.gallery-top')?.prepend(categoryBack);
+
+const selectedPanel=document.querySelector('.selection');if(selectedPanel)document.querySelector('.control-bar')?.prepend(selectedPanel);
+
+horizontalScroll(document.getElementById('selected')!);

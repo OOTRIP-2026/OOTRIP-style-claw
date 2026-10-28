@@ -5,6 +5,7 @@
     "start": "node --env-file-if-exists=.env integrations/fitting-journal/tools/lucy-demo/start.mjs",
     "check:modules": "npm --prefix integrations/fitting-journal run typecheck",
     "test:modules": "npm --prefix integrations/fitting-journal test",
-    "test:realtime": "npm --prefix integrations/fitting-journal run test:lucy"
+    "test:realtime": "npm --prefix integrations/fitting-journal run test:lucy",
+    "build:modules": "node build-modules.mjs"
   }
 }
